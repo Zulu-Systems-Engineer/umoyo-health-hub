@@ -1,0 +1,23 @@
+{
+  "name": "@umoyo/seeding",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "scripts": {
+    "ingest-pdfs": "tsx src/ingest-pdfs.ts",
+    "create-corpus": "tsx src/create-corpus.ts",
+    "pubmed-ingestion": "tsx src/pubmed-ingestion.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@umoyo/shared": "workspace:*",
+    "@google-cloud/storage": "^7.7.0",
+    "@google-cloud/aiplatform": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}
+

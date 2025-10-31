@@ -1,0 +1,33 @@
+{
+  "name": "@umoyo/functions",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "firebase emulators:start --only functions",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "deploy": "firebase deploy --only functions",
+    "lint": "eslint . --ext .ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@umoyo/shared": "workspace:*",
+    "@google-cloud/aiplatform": "^3.0.0",
+    "@trpc/server": "^10.45.0",
+    "firebase-admin": "^12.0.0",
+    "firebase-functions": "^5.0.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "eslint": "^8.55.0",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": "18"
+  }
+}
+
