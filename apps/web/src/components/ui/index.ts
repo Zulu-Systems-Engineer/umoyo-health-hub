@@ -1,2 +1,4 @@
-// shadcn/ui components will be added here via shadcn CLI
+export * from "./card";
+export * from "./button";
+export * from "./textarea";
 

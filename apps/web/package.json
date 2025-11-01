@@ -11,11 +11,15 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@umoyo/shared": "workspace:*",
+    "@hookform/resolvers": "^5.2.2",
+    "@radix-ui/react-slot": "^1.2.3",
     "@tanstack/react-query": "^5.17.0",
-    "@trpc/client": "^10.45.0",
-    "@trpc/react-query": "^10.45.0",
+    "@trpc/client": "^11.0.0",
+    "@trpc/react-query": "^11.0.0",
+    "@umoyo/shared": "workspace:*",
+    "class-variance-authority": "^0.7.1",
     "firebase": "^10.7.1",
+    "lucide-react": "^0.552.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.49.2",
@@ -28,16 +32,15 @@
     "@typescript-eslint/parser": "^6.14.0",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.16",
-    "clsx": "^2.1.0",
-    "tailwind-merge": "^2.2.0",
+    "clsx": "^2.1.1",
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "postcss": "^8.4.32",
+    "tailwind-merge": "^2.6.0",
     "tailwindcss": "^3.4.0",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.3.3",
     "vite": "^5.0.8"
   }
 }
-
