@@ -16,19 +16,12 @@ export interface GenerationOptions {
 
 class GeminiService {
   private vertexAI: VertexAI;
-  private projectId: string;
-  private location: string;
-  private modelName: string;
 
   constructor() {
-    this.projectId = config.gcp.projectId;
-    this.location = config.gcp.location;
-    this.modelName = config.gemini.modelName;
-
     // Initialize Vertex AI
     this.vertexAI = new VertexAI({
-      project: this.projectId,
-      location: this.location,
+      project: config.gcp.projectId,
+      location: config.gcp.location,
     });
   }
 
@@ -49,7 +42,7 @@ class GeminiService {
 
       // Get the generative model
       const model = this.vertexAI.preview.getGenerativeModel({
-        model: this.modelName,
+        model: config.gemini.modelName,
         generationConfig: {
           temperature: options?.temperature ?? config.gemini.temperature,
           maxOutputTokens: options?.maxTokens ?? config.gemini.maxTokens,
@@ -137,7 +130,7 @@ Remember to:
   ): Promise<string> {
     try {
       const model = this.vertexAI.preview.getGenerativeModel({
-        model: this.modelName,
+        model: config.gemini.modelName,
         generationConfig: {
           temperature: 0.3, // Lower temperature for summaries
           maxOutputTokens: maxLength,
@@ -173,7 +166,7 @@ Remember to:
     try {
       // Use Gemini's safety settings or a separate moderation model
       const model = this.vertexAI.preview.getGenerativeModel({
-        model: this.modelName,
+        model: config.gemini.modelName,
       });
 
       // Simple safety check prompt

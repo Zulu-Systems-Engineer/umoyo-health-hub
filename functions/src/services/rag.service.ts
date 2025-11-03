@@ -7,6 +7,9 @@ import { VertexAI } from '@google-cloud/vertexai';
 import { config } from '../config';
 import type { DocumentSource } from '@umoyo/shared';
 
+// Re-export DocumentSource so it can be properly named in exported types
+export type { DocumentSource } from '@umoyo/shared';
+
 export interface SearchContext {
   category?: 'clinical-guideline' | 'drug-info' | 'disease-reference' | 'patient-education';
   language?: 'en' | 'ny' | 'bem';
@@ -27,21 +30,17 @@ export interface RAGSearchResult {
 
 class RAGService {
   private vertexAI: VertexAI;
-  private projectId: string;
-  private location: string;
   private corpusName: string;
   private corpusId?: string;
 
   constructor() {
-    this.projectId = config.gcp.projectId;
-    this.location = config.gcp.location;
     this.corpusName = config.rag.corpusName;
     this.corpusId = config.rag.corpusId;
 
     // Initialize Vertex AI
     this.vertexAI = new VertexAI({
-      project: this.projectId,
-      location: this.location,
+      project: config.gcp.projectId,
+      location: config.gcp.location,
     });
   }
 
@@ -58,8 +57,8 @@ class RAGService {
 
       // Build the corpus resource path
       const corpusPath = this.corpusId 
-        ? `projects/${this.projectId}/locations/${this.location}/ragCorpora/${this.corpusId}`
-        : `projects/${this.projectId}/locations/${this.location}/ragCorpora/${this.corpusName}`;
+        ? `projects/${config.gcp.projectId}/locations/${config.gcp.location}/ragCorpora/${this.corpusId}`
+        : `projects/${config.gcp.projectId}/locations/${config.gcp.location}/ragCorpora/${this.corpusName}`;
 
       // Build query text with context filters if provided
       // TODO: Use queryText when implementing actual RAG API
