@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Loader2, Bot, User, Shield, BookOpen, AlertCircle } from "lucide-react";
+import { Loader2, Bot, Shield, BookOpen, AlertCircle } from "lucide-react";
 import { useChat } from "@/hooks";
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent } from "../ui/card";
@@ -36,15 +36,12 @@ export default function ChatInterface({
         role: "assistant",
         content: response.message.content,
         sources: response.sources,
-        timestamp: new Date(),
       });
     },
     onError: (error: any) => {
       addMessage({
         role: "assistant",
         content: `I apologize, but I'm having trouble accessing medical information right now. ${error.message || "Please try again in a moment."}`,
-        isError: true,
-        timestamp: new Date(),
       });
     },
   });
@@ -52,13 +49,10 @@ export default function ChatInterface({
   const handleSubmit = (message: string) => {
     if (!message.trim() || queryMutation.isPending) return;
 
-    const userMessage: ChatMessageType = {
+    addMessage({
       role: "user",
       content: message,
-      timestamp: new Date(),
-    };
-
-    addMessage(userMessage);
+    });
 
     queryMutation.mutate({
       message,
@@ -227,11 +221,10 @@ export default function ChatInterface({
 
           {/* Messages */}
           <div className="space-y-6">
-            {messages.map((message: ChatMessageType, index) => (
+            {messages.map((message: ChatMessageType) => (
               <ChatMessage 
                 key={message.id} 
                 message={message}
-                isLatest={index === messages.length - 1}
               />
             ))}
 
@@ -290,11 +283,6 @@ export default function ChatInterface({
             onSubmit={handleSubmit}
             isLoading={queryMutation.isPending}
             disabled={queryMutation.isPending}
-            placeholder={
-              role === "patient" 
-                ? "Describe your symptoms or ask a health question..." 
-                : "Search clinical guidelines or ask about treatments..."
-            }
           />
           
           {/* Disclaimer */}

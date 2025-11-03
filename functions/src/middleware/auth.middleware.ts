@@ -1,32 +1,50 @@
-import { getAuth } from "firebase-admin/auth";
-import type { DecodedIdToken } from "firebase-admin/auth";
+/**
+ * Auth Middleware
+ * Handles Firebase Authentication verification
+ */
+
+import { getAuth } from 'firebase-admin/auth';
+import { TRPCError } from '@trpc/server';
+
+export interface AuthContext {
+  userId: string;
+  email?: string;
+  role?: string;
+}
 
 /**
- * Middleware to validate Firebase Authentication token
+ * Verify Firebase ID token and extract user info
  */
-export async function validateAuthToken(
-  token: string | undefined
-): Promise<DecodedIdToken | null> {
-  if (!token) {
-    return null;
-  }
-
+export async function verifyAuthToken(token: string): Promise<AuthContext> {
   try {
     const auth = getAuth();
     const decodedToken = await auth.verifyIdToken(token);
-    return decodedToken;
-  } catch (error) {
-    console.error("Auth validation error:", error);
-    return null;
+
+    return {
+      userId: decodedToken.uid,
+      email: decodedToken.email,
+      role: decodedToken.role || 'user',
+    };
+  } catch (error: any) {
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: `Invalid authentication token: ${error.message}`,
+    });
   }
 }
 
 /**
- * Creates a tRPC middleware for authentication
+ * Extract token from Authorization header
  */
-export function createAuthMiddleware() {
-  // TODO: Implement tRPC authentication middleware
-  // This will be used to protect authenticated routes
-  throw new Error("Auth middleware not implemented yet");
-}
+export function extractToken(authHeader?: string): string | null {
+  if (!authHeader) {
+    return null;
+  }
 
+  const parts = authHeader.split(' ');
+  if (parts.length !== 2 || parts[0] !== 'Bearer') {
+    return null;
+  }
+
+  return parts[1];
+}

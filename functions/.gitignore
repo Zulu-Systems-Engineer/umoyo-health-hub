@@ -1,5 +1,27 @@
+# Build output
 lib/
-node_modules/
+*.log
+
+# Environment
 .env
 .env.local
+.env.*.local
 
+# Service account keys
+*.json
+!package.json
+!tsconfig.json
+
+# Dependencies
+node_modules/
+
+# Firebase
+.firebase/
+firebase-debug.log
+.firebaserc
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

@@ -1,23 +1,29 @@
 {
   "name": "@umoyo/seeding",
-  "version": "0.1.0",
-  "type": "module",
-  "main": "./src/index.ts",
+  "version": "1.0.0",
+  "description": "Data ingestion pipeline for Umoyo Health Hub",
+  "main": "dist/index.js",
   "scripts": {
-    "ingest-pdfs": "tsx src/ingest-pdfs.ts",
-    "create-corpus": "tsx src/create-corpus.ts",
-    "pubmed-ingestion": "tsx src/pubmed-ingestion.ts",
-    "typecheck": "tsc --noEmit"
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "pipeline": "tsx src/index.ts",
+    "download-only": "tsx src/scripts/download-only.ts",
+    "create-corpus": "tsx src/scripts/create-corpus.ts",
+    "test-pubmed": "tsx src/scripts/test-pubmed.ts",
+    "clean": "rm -rf dist data/downloads"
   },
   "dependencies": {
-    "@umoyo/shared": "workspace:*",
     "@google-cloud/storage": "^7.7.0",
-    "@google-cloud/aiplatform": "^3.0.0"
+    "@google-cloud/vertexai": "^1.1.0",
+    "axios": "^1.6.5",
+    "cheerio": "^1.0.0-rc.12",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20.11.0",
+    "@types/node": "^20.10.6",
+    "@types/uuid": "^9.0.7",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3"
   }
 }
-
