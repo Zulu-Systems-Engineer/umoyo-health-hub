@@ -5,10 +5,12 @@
 
 import { VertexAI } from '@google-cloud/vertexai';
 import { config } from '../config';
-import type { DocumentSource } from '@umoyo/shared';
+import type { DocumentSource as DocumentSourceImport } from '@umoyo/shared';
 
-// Re-export DocumentSource so it can be properly named in exported types
-export type { DocumentSource } from '@umoyo/shared';
+// Export DocumentSource as a type alias so TypeScript can properly name it in declaration files
+// This is necessary because exported variables (like searchRouter, chatRouter) use this type
+// through the RAG service's return types, and TypeScript needs to be able to reference the type name
+export type DocumentSource = DocumentSourceImport;
 
 export interface SearchContext {
   category?: 'clinical-guideline' | 'drug-info' | 'disease-reference' | 'patient-education';
@@ -29,6 +31,8 @@ export interface RAGSearchResult {
 }
 
 class RAGService {
+  // Vertex AI client - will be used when RAG API is implemented
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private vertexAI: VertexAI;
   private corpusName: string;
   private corpusId?: string;
@@ -37,7 +41,7 @@ class RAGService {
     this.corpusName = config.rag.corpusName;
     this.corpusId = config.rag.corpusId;
 
-    // Initialize Vertex AI
+    // Initialize Vertex AI (prepared for future RAG API implementation)
     this.vertexAI = new VertexAI({
       project: config.gcp.projectId,
       location: config.gcp.location,
@@ -55,14 +59,15 @@ class RAGService {
     try {
       console.log('[RAG Service] Searching corpus:', { query, context, options });
 
-      // Build the corpus resource path
+      // Build the corpus resource path (for future RAG API implementation)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const corpusPath = this.corpusId 
         ? `projects/${config.gcp.projectId}/locations/${config.gcp.location}/ragCorpora/${this.corpusId}`
         : `projects/${config.gcp.projectId}/locations/${config.gcp.location}/ragCorpora/${this.corpusName}`;
 
       // Build query text with context filters if provided
       // TODO: Use queryText when implementing actual RAG API
-      let _queryText = query;
+      // Query text construction for future RAG API implementation
       if (context) {
         const filters: string[] = [];
         if (context.category) filters.push(`category:${context.category}`);
@@ -70,31 +75,26 @@ class RAGService {
         if (context.audience) filters.push(`audience:${context.audience}`);
         if (context.region) filters.push(`region:${context.region}`);
         
-        if (filters.length > 0) {
-          _queryText = `${query} ${filters.join(' ')}`;
-        }
+        // Query text would be: `${query} ${filters.join(' ')}`
+        // This will be used when actual RAG API is implemented
       }
 
       // Prepare the retrieval request
       // TODO: Use retrievalConfig when implementing actual RAG API
-      const _retrievalConfig = {
-        vertexRagStore: {
-          ragResources: [
-            {
-              ragCorpus: corpusPath,
-            },
-          ],
-          similarityTopK: options?.limit || config.rag.maxResults,
-          vectorDistanceThreshold: config.rag.minRelevanceScore,
-        },
-      };
+      // Retrieval configuration structure for future RAG API implementation:
+      // {
+      //   vertexRagStore: {
+      //     ragResources: [{ ragCorpus: corpusPath }],
+      //     similarityTopK: options?.limit || config.rag.maxResults,
+      //     vectorDistanceThreshold: config.rag.minRelevanceScore,
+      //   },
+      // }
 
       // Use Vertex AI Retrieval API
       // Note: The actual API might vary - check latest Vertex AI RAG documentation
       // TODO: Use model when implementing actual RAG API
-      const _model = this.vertexAI.preview.getGenerativeModel({
-        model: 'gemini-2.0-flash-exp',
-      });
+      // Model initialization for future RAG API implementation:
+      // this.vertexAI.preview.getGenerativeModel({ model: 'gemini-2.0-flash-exp' })
 
       // For now, this is a placeholder that shows the structure
       // The actual RAG retrieval API might be different
@@ -161,8 +161,10 @@ class RAGService {
   /**
    * Format search context into metadata filters
    * TODO: Use this method when implementing actual RAG API filtering
+   * This method is prepared for future RAG API implementation
    */
-  private _formatContextFilters(context?: SearchContext): Record<string, string> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private formatContextFilters(context?: SearchContext): Record<string, string> {
     const filters: Record<string, string> = {};
     
     if (context?.category) filters.category = context.category;
