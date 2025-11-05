@@ -14,13 +14,13 @@ interface FirebaseConfig {
 }
 
 const firebaseConfig: FirebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyC0S4eceTsTQI38gcNoBjdauuGOnhuqwrM",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "umoyo-health-hub.firebaseapp.com",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "umoyo-health-hub",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "umoyo-health-hub.firebasestorage.app",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "443174804509",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:443174804509:web:8f4c2820e25b5fd31f7af4",
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-TMQY3BEZ4Y",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "",
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 let app: FirebaseApp | undefined;
