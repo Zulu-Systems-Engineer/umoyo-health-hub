@@ -10,7 +10,9 @@ export function createTRPCClient() {
   return trpc.createClient({
     links: [
       httpBatchLink({
-        url: import.meta.env.VITE_TRPC_URL || "http://localhost:5001/api",
+        // Firebase Functions emulator URL format: http://localhost:5001/{project-id}/{region}/{function-name}
+        // For production, use the deployed function URL
+        url: import.meta.env.VITE_TRPC_URL || "http://localhost:5001/umoyo-health-hub/us-central1/trpc",
       }),
     ],
   });

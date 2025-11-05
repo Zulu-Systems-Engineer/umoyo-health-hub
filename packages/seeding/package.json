@@ -1,28 +1,41 @@
 {
   "name": "@umoyo/seeding",
   "version": "1.0.0",
-  "description": "Data ingestion pipeline for Umoyo Health Hub",
+  "description": "Data ingestion and RAG pipeline for Umoyo Health Hub",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "dev": "tsx src/index.ts",
     "start": "node dist/index.js",
     "pipeline": "tsx src/index.ts",
+    "rag-pipeline": "tsx src/scripts/run-rag-pipeline.ts",
     "download-only": "tsx src/scripts/download-only.ts",
     "create-corpus": "tsx src/scripts/create-corpus.ts",
     "test-pubmed": "tsx src/scripts/test-pubmed.ts",
-    "clean": "rm -rf dist data/downloads"
+    "test-embedding": "tsx src/scripts/test-embedding.ts",
+    "test-search": "tsx src/scripts/test-search.ts",
+    "test-firestore": "tsx src/scripts/test-firestore.ts",
+    "diagnose": "tsx src/scripts/diagnose.ts",
+    "clean": "rimraf dist data/downloads"
   },
   "dependencies": {
+    "@google-cloud/aiplatform": "^3.35.0",
+    "@google-cloud/firestore": "^8.0.0",
     "@google-cloud/storage": "^7.7.0",
     "@google-cloud/vertexai": "^1.1.0",
+    "@google-cloud/vision": "^5.3.4",
+    "@umoyo/shared": "workspace:*",
     "axios": "^1.6.5",
+    "canvas": "^3.2.0",
     "cheerio": "^1.0.0-rc.12",
+    "pdf-parse": "^1.1.1",
+    "pdfjs-dist": "^5.4.394",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/node": "^20.10.6",
     "@types/uuid": "^9.0.7",
+    "rimraf": "^6.1.0",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3"
   }

@@ -58,10 +58,16 @@ export function getStorageConfig(): { keyFilename?: string; projectId?: string }
     config.keyFilename = keyPath;
   }
 
-  // Add project ID if available
-  const projectId = process.env.GCP_PROJECT_ID;
-  if (projectId) {
-    config.projectId = projectId;
+  // Always include project ID (required for Storage client)
+  // Use environment variable or default to umoyo-health-hub
+  const projectId = process.env.GCP_PROJECT_ID || 'umoyo-health-hub';
+  config.projectId = projectId;
+
+  // If no key file found, provide helpful error message
+  if (!keyPath) {
+    console.warn('[Auth] No service account key found. Attempting to use Application Default Credentials (ADC).');
+    console.warn('[Auth] To use ADC, run: gcloud auth application-default login');
+    console.warn('[Auth] Or set GOOGLE_APPLICATION_CREDENTIALS environment variable to your service account key path.');
   }
 
   return config;

@@ -12,25 +12,28 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@umoyo/shared": "workspace:*",
-    "@google-cloud/aiplatform": "^3.0.0",
-    "@google-cloud/vertexai": "^1.1.0",
+    "@google-cloud/aiplatform": "^3.35.0",
+    "@google-cloud/firestore": "^8.0.0",
+    "@google-cloud/vertexai": "^1.10.0",
     "@trpc/server": "^11.0.0",
+    "@umoyo/shared": "workspace:*",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "firebase-admin": "^12.0.0",
     "firebase-functions": "^5.0.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^4.17.21",
     "@types/node": "^20.11.0",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "eslint": "^8.55.0",
+    "rimraf": "^6.1.0",
     "typescript": "^5.3.3"
   },
   "engines": {
-    "node": ">=18"
+    "node": "22"
   }
 }
-

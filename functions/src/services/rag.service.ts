@@ -32,7 +32,7 @@ export interface RAGSearchResult {
 
 class RAGService {
   // Vertex AI client - will be used when RAG API is implemented
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // @ts-expect-error - vertexAI is prepared for future RAG API implementation
   private vertexAI: VertexAI;
   private corpusName: string;
   private corpusId?: string;
@@ -60,7 +60,7 @@ class RAGService {
       console.log('[RAG Service] Searching corpus:', { query, context, options });
 
       // Build the corpus resource path (for future RAG API implementation)
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // @ts-expect-error - corpusPath is prepared for future RAG API implementation
       const corpusPath = this.corpusId 
         ? `projects/${config.gcp.projectId}/locations/${config.gcp.location}/ragCorpora/${this.corpusId}`
         : `projects/${config.gcp.projectId}/locations/${config.gcp.location}/ragCorpora/${this.corpusName}`;
@@ -163,7 +163,7 @@ class RAGService {
    * TODO: Use this method when implementing actual RAG API filtering
    * This method is prepared for future RAG API implementation
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // @ts-expect-error - formatContextFilters is prepared for future RAG API implementation
   private formatContextFilters(context?: SearchContext): Record<string, string> {
     const filters: Record<string, string> = {};
     

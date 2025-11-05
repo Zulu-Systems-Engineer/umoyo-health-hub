@@ -11,8 +11,19 @@ export class GCSService {
   constructor(bucketName: string = 'umoyo-health-pdfs') {
     // Use authentication config (supports both env var and keyFilename)
     const config = getStorageConfig();
-    this.storage = new Storage(config);
-    this.bucketName = bucketName;
+    
+    try {
+      this.storage = new Storage(config);
+      this.bucketName = bucketName;
+    } catch (error: any) {
+      console.error('[GCS Service] Failed to initialize Storage client:', error.message);
+      throw new Error(
+        'Failed to initialize Google Cloud Storage. Please ensure you have authenticated:\n' +
+        '1. Set GOOGLE_APPLICATION_CREDENTIALS environment variable to your service account key path, OR\n' +
+        '2. Run: gcloud auth application-default login\n' +
+        'See https://cloud.google.com/docs/authentication/getting-started for more information.'
+      );
+    }
   }
 
   async uploadFile(localPath: string, gcsPath: string): Promise<string> {
@@ -31,7 +42,19 @@ export class GCSService {
       
       return publicUrl;
     } catch (error: any) {
-      console.error(`❌ Failed to upload ${localPath}:`, error.message);
+      // Check if it's an authentication error
+      if (error.message?.includes('Could not load the default credentials') || 
+          error.message?.includes('authentication') ||
+          error.code === 401 ||
+          error.code === 403) {
+        console.error(`❌ Authentication error uploading ${localPath}:`, error.message);
+        console.error('\n📝 To fix this, authenticate with Google Cloud:');
+        console.error('   Option 1: Set GOOGLE_APPLICATION_CREDENTIALS environment variable');
+        console.error('   Option 2: Run: gcloud auth application-default login');
+        console.error('   See: https://cloud.google.com/docs/authentication/getting-started\n');
+      } else {
+        console.error(`❌ Failed to upload ${localPath}:`, error.message);
+      }
       throw error;
     }
   }

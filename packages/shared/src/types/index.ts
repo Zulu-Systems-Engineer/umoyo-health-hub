@@ -19,4 +19,9 @@ export type {
   SearchParams,
   SearchResult,
 } from "./search";
+export type {
+  VectorChunk,
+  VectorDBMetadata,
+  RAGQueryResult,
+} from "./rag.types";
 
