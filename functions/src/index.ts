@@ -42,11 +42,8 @@ const corsOptions = {
   optionsSuccessStatus: 204,
 };
 
-// Enable CORS for all routes - MUST be first to handle preflight requests
-expressApp.use(cors(corsOptions));
-
-// Explicit OPTIONS handler as fallback (CORS middleware should handle this, but explicit is safer)
-expressApp.options('*', cors(corsOptions));
+// TEMPORARY TEST: Allow everything from anywhere
+expressApp.use(cors());
 
 // Add body parser middleware
 expressApp.use(express.json());
