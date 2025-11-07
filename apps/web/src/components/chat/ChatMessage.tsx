@@ -12,8 +12,8 @@ export default function ChatMessage({ message }: ChatMessageProps) {
 
   return (
     <Card
-      className={`mb-4 ${
-        isUser ? "bg-blue-50 border-blue-200" : "bg-gray-50 border-gray-200"
+      className={`mb-4 rounded-xl shadow-sm ${
+        isUser ? "bg-blue-50 border-blue-200" : "bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200"
       }`}
     >
       <CardContent className="p-4">
@@ -21,9 +21,13 @@ export default function ChatMessage({ message }: ChatMessageProps) {
           {/* Icon */}
           <div className="flex-shrink-0">
             {isUser ? (
-              <User className="h-5 w-5 text-blue-600" />
+              <div className="p-2 bg-blue-600 rounded-full shadow-sm">
+                <User className="h-4 w-4 text-white" />
+              </div>
             ) : (
-              <Bot className="h-5 w-5 text-gray-600" />
+              <div className="p-2 bg-blue-600 rounded-full shadow-sm">
+                <Bot className="h-4 w-4 text-white" />
+              </div>
             )}
           </div>
 
@@ -41,7 +45,7 @@ export default function ChatMessage({ message }: ChatMessageProps) {
 
             {/* Citations */}
             {isAssistant && message.sources && message.sources.length > 0 && (
-              <div className="mt-4 pt-4 border-t border-gray-200">
+              <div className="mt-4 pt-4 border-t border-blue-200">
                 <div className="text-sm font-semibold text-gray-700 mb-2">
                   Sources:
                 </div>
