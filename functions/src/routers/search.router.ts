@@ -3,12 +3,12 @@
  * Handles document search functionality
  */
 
-import { router, publicProcedure } from '../app';
+import { router, publicProcedure } from '../router';
 import { searchParamsSchema } from '@umoyo/shared';
 import { ragService } from '../services/rag.service';
 import type { SearchContext, SearchOptions } from '../services/rag.service';
 
-export const searchRouter = router({
+export const searchRouter: ReturnType<typeof router> = router({
   /**
    * Search documents in the RAG corpus
    */

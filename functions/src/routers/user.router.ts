@@ -3,11 +3,11 @@
  * Handles user-related endpoints
  */
 
-import { router, publicProcedure } from '../app';
+import { router, publicProcedure } from '../router';
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 
-export const userRouter = router({
+export const userRouter: ReturnType<typeof router> = router({
   /**
    * Get user profile
    */

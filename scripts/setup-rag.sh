@@ -15,7 +15,7 @@ cd ../..
 
 # 2. Initialize Firestore
 echo "🔥 Initializing Firestore..."
-firebase firestore:indexes firestore.indexes.json
+firebase deploy --only firestore:indexes
 
 # 3. Deploy Firestore rules
 echo "🔐 Deploying Firestore security rules..."

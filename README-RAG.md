@@ -233,12 +233,10 @@ console.log(stats);
 ### View Firestore Data
 
 ```bash
-# List collections
-
-firebase firestore:indexes
+# Deploy Firestore composite indexes
+firebase deploy --only firestore:indexes
 
 # Query vector chunks
-
 firebase firestore:query vectorChunks --limit 10
 ```
 
@@ -309,4 +307,6 @@ await new Promise(resolve => setTimeout(resolve, 2000)); // 2 seconds
 - [Gemini API Reference](https://ai.google.dev/docs)
 
 - [Vector Search Best Practices](https://cloud.google.com/vertex-ai/docs/vector-search/overview)
+
+
 
