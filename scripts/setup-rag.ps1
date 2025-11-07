@@ -13,7 +13,7 @@ Set-Location ..\
 
 # 2. Initialize Firestore
 Write-Host "🔥 Initializing Firestore..." -ForegroundColor Cyan
-firebase firestore:indexes firestore.indexes.json
+firebase deploy --only firestore:indexes
 
 # 3. Deploy Firestore rules
 Write-Host "🔐 Deploying Firestore security rules..." -ForegroundColor Cyan

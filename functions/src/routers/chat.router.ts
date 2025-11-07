@@ -3,13 +3,13 @@
  * Handles chat/RAG query endpoints
  */
 
-import { router, publicProcedure } from '../app';
+import { router, publicProcedure } from '../router';
 import { chatQuerySchema, type ChatResponse } from '@umoyo/shared';
 import { ragService } from '../services/rag.service';
 import { geminiService } from '../services/gemini.service';
 import type { SearchContext } from '../services/rag.service';
 
-export const chatRouter = router({
+export const chatRouter: ReturnType<typeof router> = router({
   /**
    * Query endpoint - Main RAG-powered chat query
    */
