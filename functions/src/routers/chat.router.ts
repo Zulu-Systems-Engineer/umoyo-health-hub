@@ -3,13 +3,40 @@
  * Handles chat/RAG query endpoints
  */
 
-import { router, publicProcedure } from '../router';
-import { chatQuerySchema, type ChatResponse } from '@umoyo/shared';
+import { router, publicProcedure } from '../trpc';
+import { z } from 'zod';
+import type { DocumentSource } from '../services/rag.service';
+
+// Type definitions
+export interface ChatResponse {
+  message: {
+    id: string;
+    role: 'assistant';
+    content: string;
+    timestamp: Date;
+    sources?: DocumentSource[];
+  };
+  sources: DocumentSource[];
+  sessionId: string;
+}
+
+// Schema definitions
+export const chatQuerySchema = z.object({
+  message: z.string(),
+  sessionId: z.string().optional(),
+  context: z.object({
+    category: z.string().optional(),
+    language: z.string().optional(),
+    audience: z.string().optional(),
+  }).optional(),
+});
+
+// Import services - they use lazy initialization internally
 import { ragService } from '../services/rag.service';
 import { geminiService } from '../services/gemini.service';
 import type { SearchContext } from '../services/rag.service';
 
-export const chatRouter: ReturnType<typeof router> = router({
+export const chatRouter = router({
   /**
    * Query endpoint - Main RAG-powered chat query
    */

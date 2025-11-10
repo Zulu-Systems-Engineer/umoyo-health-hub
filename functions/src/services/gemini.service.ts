@@ -3,9 +3,10 @@
  * Handles calls to Google Gemini models for text generation
  */
 
-import { VertexAI } from '@google-cloud/vertexai';
+// Lazy imports - VertexAI will be loaded at runtime, not during deployment analysis
+type VertexAI = any;
 import { config } from '../config';
-import type { DocumentSource } from '@umoyo/shared';
+import type { DocumentSource } from './rag.service';
 
 export interface GenerationOptions {
   temperature?: number;
@@ -15,14 +16,25 @@ export interface GenerationOptions {
 }
 
 class GeminiService {
-  private vertexAI: VertexAI;
+  private vertexAI: VertexAI | null = null;
 
   constructor() {
-    // Initialize Vertex AI
-    this.vertexAI = new VertexAI({
-      project: config.gcp.projectId,
-      location: config.gcp.location,
-    });
+    // Don't initialize VertexAI in constructor to avoid blocking during deployment
+    // It will be lazily initialized on first use
+  }
+
+  /**
+   * Lazily initialize VertexAI client only when needed
+   */
+  private getVertexAI(): any {
+    if (!this.vertexAI) {
+      const { VertexAI } = require('@google-cloud/vertexai');
+      this.vertexAI = new VertexAI({
+        project: config.gcp.projectId,
+        location: config.gcp.location,
+      });
+    }
+    return this.vertexAI;
   }
 
   /**
@@ -40,8 +52,9 @@ class GeminiService {
         options,
       });
 
-      // Get the generative model
-      const model = this.vertexAI.preview.getGenerativeModel({
+      // Get the generative model (lazily initialized)
+      const vertexAI = this.getVertexAI();
+      const model = vertexAI.preview.getGenerativeModel({
         model: config.gemini.modelName,
         generationConfig: {
           temperature: options?.temperature ?? config.gemini.temperature,
@@ -129,7 +142,8 @@ Remember to:
     maxLength: number = 500
   ): Promise<string> {
     try {
-      const model = this.vertexAI.preview.getGenerativeModel({
+      const vertexAI = this.getVertexAI();
+      const model = vertexAI.preview.getGenerativeModel({
         model: config.gemini.modelName,
         generationConfig: {
           temperature: 0.3, // Lower temperature for summaries
@@ -165,7 +179,8 @@ Remember to:
   }> {
     try {
       // Use Gemini's safety settings or a separate moderation model
-      const model = this.vertexAI.preview.getGenerativeModel({
+      const vertexAI = this.getVertexAI();
+      const model = vertexAI.preview.getGenerativeModel({
         model: config.gemini.modelName,
       });
 
@@ -199,4 +214,14 @@ Query: "${query}"`;
   }
 }
 
-export const geminiService = new GeminiService();
+// Lazy singleton: only create instance when first accessed
+let geminiServiceInstance: GeminiService | null = null;
+
+export const geminiService = new Proxy({} as GeminiService, {
+  get(target, prop) {
+    if (!geminiServiceInstance) {
+      geminiServiceInstance = new GeminiService();
+    }
+    return (geminiServiceInstance as any)[prop];
+  }
+});

@@ -1,27 +1,10 @@
-# Build output
-lib/
-*.log
+# Compiled JavaScript files
+lib/**/*.js
+lib/**/*.js.map
 
-# Environment
-.env
-.env.local
-.env.*.local
+# TypeScript v1 declaration files
+typings/
 
-# Service account keys
-*.json
-!package.json
-!tsconfig.json
-
-# Dependencies
+# Node.js dependency directory
 node_modules/
-
-# Firebase
-.firebase/
-firebase-debug.log
-.firebaserc
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
+*.local

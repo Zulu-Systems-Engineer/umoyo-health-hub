@@ -1,11 +1,19 @@
 import { z } from 'zod';
-import { publicProcedure, protectedProcedure, router } from '../router';
+import { publicProcedure, protectedProcedure, router } from '../trpc';
 import { HybridRAGService } from '../services/hybrid-rag.service';
 import { TRPCError } from '@trpc/server';
 
-const hybridRAGService = new HybridRAGService();
+// Lazy initialization: only create service when first accessed
+let hybridRAGService: HybridRAGService | null = null;
 
-export const ragRouter: ReturnType<typeof router> = router({
+function getHybridRAGService(): HybridRAGService {
+  if (!hybridRAGService) {
+    hybridRAGService = new HybridRAGService();
+  }
+  return hybridRAGService;
+}
+
+export const ragRouter = router({
   
   // Public query endpoint (uses intelligent routing)
   query: publicProcedure
@@ -15,7 +23,8 @@ export const ragRouter: ReturnType<typeof router> = router({
     }))
     .mutation(async ({ input }) => {
       try {
-        const result = await hybridRAGService.query(
+        const service = getHybridRAGService();
+        const result = await service.query(
           input.message,
           'patient'
         );
@@ -53,7 +62,8 @@ export const ragRouter: ReturnType<typeof router> = router({
       }
 
       try {
-        const result = await hybridRAGService.query(
+        const service = getHybridRAGService();
+        const result = await service.query(
           input.message,
           'healthcare-professional'
         );
@@ -93,7 +103,8 @@ export const ragRouter: ReturnType<typeof router> = router({
   healthCheck: publicProcedure
     .query(async () => {
       try {
-        const health = await hybridRAGService.healthCheck();
+        const service = getHybridRAGService();
+        const health = await service.healthCheck();
         return {
           status: 'ok',
           systems: health,
