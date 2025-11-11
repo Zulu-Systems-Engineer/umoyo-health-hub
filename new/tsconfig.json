@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "NodeNext",
     "esModuleInterop": true,
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
     "noImplicitReturns": true,
     "noUnusedLocals": true,
-    "skipLibCheck": true,
     "outDir": "lib",
     "sourceMap": true,
     "strict": true,
@@ -14,9 +13,5 @@
   "compileOnSave": true,
   "include": [
     "src"
-  ],
-  "exclude": [
-    "node_modules",
-    "lib"
   ]
 }

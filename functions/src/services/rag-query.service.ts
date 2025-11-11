@@ -137,7 +137,7 @@ export class RAGQueryService {
       .collection('vectorChunks')
       .get();
 
-    const results = snapshot.docs.map(doc => {
+    const results = snapshot.docs.map((doc: any) => {
       const chunk = doc.data() as VectorChunk;
       const similarity = this.cosineSimilarity(queryEmbedding, chunk.embedding);
       
@@ -145,7 +145,7 @@ export class RAGQueryService {
     });
 
     return results
-      .sort((a, b) => b.similarity - a.similarity)
+      .sort((a: { similarity: number }, b: { similarity: number }) => b.similarity - a.similarity)
       .slice(0, topK);
   }
 
