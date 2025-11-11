@@ -1,0 +1,267 @@
+extend type Query {
+  """
+  ✨ Look up a single `Activity` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  activity(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Activity_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Activity_FirstRow
+  ): Activity @fdc_generated(from: "Activity", purpose: QUERY_SINGLE)
+  """
+  ✨ Look up a single `FoodLog` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  foodLog(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: FoodLog_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: FoodLog_FirstRow
+  ): FoodLog @fdc_generated(from: "FoodLog", purpose: QUERY_SINGLE)
+  """
+  ✨ Look up a single `Goal` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  goal(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Goal_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Goal_FirstRow
+  ): Goal @fdc_generated(from: "Goal", purpose: QUERY_SINGLE)
+  """
+  ✨ Look up a single `MetricEntry` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  metricEntry(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: MetricEntry_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: MetricEntry_FirstRow
+  ): MetricEntry @fdc_generated(from: "MetricEntry", purpose: QUERY_SINGLE)
+  """
+  ✨ Look up a single `User` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  user(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: User_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: User_FirstRow
+  ): User @fdc_generated(from: "User", purpose: QUERY_SINGLE)
+  """
+  ✨ List `Activity` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  activities(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Activity_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Activity_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Activity_Having
+  ): [Activity!]! @fdc_generated(from: "Activity", purpose: QUERY_MULTIPLE)
+  """
+  ✨ List `FoodLog` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  foodLogs(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: FoodLog_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [FoodLog_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: FoodLog_Having
+  ): [FoodLog!]! @fdc_generated(from: "FoodLog", purpose: QUERY_MULTIPLE)
+  """
+  ✨ List `Goal` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  goals(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Goal_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Goal_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Goal_Having
+  ): [Goal!]! @fdc_generated(from: "Goal", purpose: QUERY_MULTIPLE)
+  """
+  ✨ List `MetricEntry` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  metricEntries(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: MetricEntry_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [MetricEntry_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: MetricEntry_Having
+  ): [MetricEntry!]! @fdc_generated(from: "MetricEntry", purpose: QUERY_MULTIPLE)
+  """
+  ✨ List `User` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  users(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: User_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [User_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: User_Having
+  ): [User!]! @fdc_generated(from: "User", purpose: QUERY_MULTIPLE)
+}

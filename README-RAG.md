@@ -288,13 +288,13 @@ await new Promise(resolve => setTimeout(resolve, 2000)); // 2 seconds
 
 2. ✅ Ingest medical documents
 
-3. ⬜ Deploy Cloud Functions
+3. ⬜ Deploy Cloud Functions (ready for deployment)
 
-4. ⬜ Build React frontend with chat interface
+4. ✅ Build React frontend with chat interface
 
-5. ⬜ Implement conversation history
+5. ✅ Implement conversation history (Firestore persistence)
 
-6. ⬜ Add user authentication
+6. ✅ Add user authentication (Firebase Auth with profile management)
 
 7. ⬜ Monitor costs and optimize
 

@@ -105,7 +105,7 @@ async function discoverBackendPort(): Promise<string | null> {
 /**
  * Get the backend URL with intelligent port discovery
  */
-function getBackendUrl(): string {
+export function getBackendUrl(): string {
   // 1. Check env var first (highest priority - set at build time)
   if (import.meta.env.VITE_TRPC_URL) {
     console.log(`🔧 Using VITE_TRPC_URL from env: ${import.meta.env.VITE_TRPC_URL}`);
@@ -189,7 +189,7 @@ export function createClient() {
         fetch(url, options) {
           return fetch(url, {
             ...options,
-            credentials: 'include',
+            credentials: 'omit',
             mode: 'cors',
           });
         },

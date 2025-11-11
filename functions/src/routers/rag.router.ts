@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { publicProcedure, protectedProcedure, router } from '../trpc';
+import { publicProcedure, router } from '../trpc';
 import { HybridRAGService } from '../services/hybrid-rag.service';
 import { TRPCError } from '@trpc/server';
 
@@ -46,21 +46,13 @@ export const ragRouter = router({
       }
     }),
 
-  // Professional query endpoint (requires authentication)
-  professionalQuery: protectedProcedure
+  // Professional query endpoint (no auth required)
+  professionalQuery: publicProcedure
     .input(z.object({
       message: z.string().min(3).max(1000),
       conversationId: z.string().optional()
     }))
-    .mutation(async ({ input, ctx }) => {
-      // Check if user is authenticated and has professional role
-      if (!ctx.user || ctx.user.role !== 'healthcare-professional') {
-        throw new TRPCError({
-          code: 'FORBIDDEN',
-          message: 'Professional access required'
-        });
-      }
-
+    .mutation(async ({ input }) => {
       try {
         const service = getHybridRAGService();
         const result = await service.query(
@@ -86,17 +78,57 @@ export const ragRouter = router({
     }),
 
   // Get vector database statistics
-  getVectorStats: protectedProcedure
+  getVectorStats: publicProcedure
     .query(async () => {
-      const { Firestore } = require('@google-cloud/firestore');
-      const firestore = new Firestore();
-      
-      const metadata = await firestore
-        .collection('vectorDB')
-        .doc('metadata')
-        .get();
+      try {
+        const { Firestore } = require('@google-cloud/firestore');
+        const firestore = new Firestore();
+        
+        // Try to get metadata first
+        const metadataDoc = await firestore
+          .collection('vectorDB')
+          .doc('metadata')
+          .get();
 
-      return metadata.exists ? metadata.data() : null;
+        if (metadataDoc.exists) {
+          const metadata = metadataDoc.data();
+          // Ensure it matches the expected format
+          return {
+            embeddingModel: metadata?.embeddingModel || 'text-embedding-005',
+            dimensions: metadata?.dimensions || 768,
+            totalDocuments: metadata?.totalDocuments || 0,
+            totalChunks: metadata?.totalChunks || 0,
+            updatedAt: metadata?.updatedAt || Date.now(),
+          };
+        }
+
+        // If metadata doesn't exist, calculate from actual data
+        const chunksSnapshot = await firestore
+          .collection('vectorChunks')
+          .get();
+
+        const documentIds = new Set<string>();
+        chunksSnapshot.docs.forEach(doc => {
+          const data = doc.data();
+          if (data.documentId) {
+            documentIds.add(data.documentId);
+          }
+        });
+
+        return {
+          embeddingModel: 'text-embedding-005',
+          dimensions: 768,
+          totalDocuments: documentIds.size,
+          totalChunks: chunksSnapshot.size,
+          updatedAt: Date.now(),
+        };
+      } catch (error: any) {
+        console.error('Error getting vector stats:', error);
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: `Failed to get vector stats: ${error.message}`,
+        });
+      }
     }),
 
   // Health check for both RAG systems

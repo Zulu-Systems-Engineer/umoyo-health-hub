@@ -1,0 +1,2237 @@
+"""
+✨ `Activity_KeyOutput` returns the primary key fields of table type `Activity`.
+
+It has the same format as `Activity_Key`, but is only used as mutation return value.
+"""
+scalar Activity_KeyOutput
+"""
+✨ `FoodLog_KeyOutput` returns the primary key fields of table type `FoodLog`.
+
+It has the same format as `FoodLog_Key`, but is only used as mutation return value.
+"""
+scalar FoodLog_KeyOutput
+"""
+✨ `Goal_KeyOutput` returns the primary key fields of table type `Goal`.
+
+It has the same format as `Goal_Key`, but is only used as mutation return value.
+"""
+scalar Goal_KeyOutput
+"""
+✨ `MetricEntry_KeyOutput` returns the primary key fields of table type `MetricEntry`.
+
+It has the same format as `MetricEntry_Key`, but is only used as mutation return value.
+"""
+scalar MetricEntry_KeyOutput
+"""
+✨ `User_KeyOutput` returns the primary key fields of table type `User`.
+
+It has the same format as `User_Key`, but is only used as mutation return value.
+"""
+scalar User_KeyOutput
+"""
+✨ Generated data input type for table 'Activity'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input Activity_Data {
+  """
+  ✨ Generated from Field `Activity`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Activity`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr
+  """
+  ✨ Generated from Field `Activity`.`userId` of type `UUID!`
+  """
+  userId: UUID
+  """
+  ✨ `_expr` server value variant of `userId` (✨ Generated from Field `Activity`.`userId` of type `UUID!`)
+  """
+  userId_expr: UUID_Expr
+  """
+  ✨ Generated from Field `Activity`.`user` of type `User!`
+  """
+  user: User_Key
+  """
+  ✨ Generated from Field `Activity`.`caloriesBurned` of type `Int!`
+  """
+  caloriesBurned: Int
+  """
+  ✨ `_expr` server value variant of `caloriesBurned` (✨ Generated from Field `Activity`.`caloriesBurned` of type `Int!`)
+  """
+  caloriesBurned_expr: Int_Expr
+  """
+  ✨ `_update` server value variant of `caloriesBurned` (✨ Generated from Field `Activity`.`caloriesBurned` of type `Int!`)
+  """
+  caloriesBurned_update: [Int_Update!]
+  """
+  ✨ Generated from Field `Activity`.`date` of type `Date!`
+  """
+  date: Date
+  """
+  ✨ `_date` server value variant of `date` (✨ Generated from Field `Activity`.`date` of type `Date!`)
+  """
+  date_date: Date_Relative
+  """
+  ✨ `_expr` server value variant of `date` (✨ Generated from Field `Activity`.`date` of type `Date!`)
+  """
+  date_expr: Date_Expr
+  """
+  ✨ `_update` server value variant of `date` (✨ Generated from Field `Activity`.`date` of type `Date!`)
+  """
+  date_update: [Date_Update!]
+  """
+  ✨ Generated from Field `Activity`.`durationMinutes` of type `Int!`
+  """
+  durationMinutes: Int
+  """
+  ✨ `_expr` server value variant of `durationMinutes` (✨ Generated from Field `Activity`.`durationMinutes` of type `Int!`)
+  """
+  durationMinutes_expr: Int_Expr
+  """
+  ✨ `_update` server value variant of `durationMinutes` (✨ Generated from Field `Activity`.`durationMinutes` of type `Int!`)
+  """
+  durationMinutes_update: [Int_Update!]
+  """
+  ✨ Generated from Field `Activity`.`intensity` of type `String`
+  """
+  intensity: String
+  """
+  ✨ `_expr` server value variant of `intensity` (✨ Generated from Field `Activity`.`intensity` of type `String`)
+  """
+  intensity_expr: String_Expr
+  """
+  ✨ Generated from Field `Activity`.`notes` of type `String`
+  """
+  notes: String
+  """
+  ✨ `_expr` server value variant of `notes` (✨ Generated from Field `Activity`.`notes` of type `String`)
+  """
+  notes_expr: String_Expr
+  """
+  ✨ Generated from Field `Activity`.`type` of type `String!`
+  """
+  type: String
+  """
+  ✨ `_expr` server value variant of `type` (✨ Generated from Field `Activity`.`type` of type `String!`)
+  """
+  type_expr: String_Expr
+}
+"""
+✨ Generated filter input type for table 'Activity'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Activity_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [Activity_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: Activity_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [Activity_Filter!]
+  """
+  ✨ Generated from Field `Activity`.`id` of type `UUID!`
+  """
+  id: UUID_Filter
+  """
+  ✨ Generated from Field `Activity`.`userId` of type `UUID!`
+  """
+  userId: UUID_Filter
+  """
+  ✨ Generated from Field `Activity`.`user` of type `User!`
+  """
+  user: User_Filter
+  """
+  ✨ Generated from Field `Activity`.`caloriesBurned` of type `Int!`
+  """
+  caloriesBurned: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`date` of type `Date!`
+  """
+  date: Date_Filter
+  """
+  ✨ Generated from Field `Activity`.`durationMinutes` of type `Int!`
+  """
+  durationMinutes: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`intensity` of type `String`
+  """
+  intensity: String_Filter
+  """
+  ✨ Generated from Field `Activity`.`notes` of type `String`
+  """
+  notes: String_Filter
+  """
+  ✨ Generated from Field `Activity`.`type` of type `String!`
+  """
+  type: String_Filter
+}
+"""
+✨ Generated first-row input type for table 'Activity'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input Activity_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [Activity_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: Activity_Filter
+}
+"""
+✨ Generated having input type for table 'Activity'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Activity_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [Activity_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: Activity_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [Activity_Having!]
+  """
+  ✨ Generated from Field `Activity`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`caloriesBurned_count` of type `Int!`
+  """
+  caloriesBurned_count: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`date_count` of type `Int!`
+  """
+  date_count: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`durationMinutes_count` of type `Int!`
+  """
+  durationMinutes_count: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`intensity_count` of type `Int!`
+  """
+  intensity_count: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`notes_count` of type `Int!`
+  """
+  notes_count: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`type_count` of type `Int!`
+  """
+  type_count: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`userId_count` of type `Int!`
+  """
+  userId_count: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`caloriesBurned_sum` of type `Int`
+  """
+  caloriesBurned_sum: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`durationMinutes_sum` of type `Int`
+  """
+  durationMinutes_sum: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`caloriesBurned_avg` of type `Float`
+  """
+  caloriesBurned_avg: Float_Filter
+  """
+  ✨ Generated from Field `Activity`.`durationMinutes_avg` of type `Float`
+  """
+  durationMinutes_avg: Float_Filter
+  """
+  ✨ Generated from Field `Activity`.`caloriesBurned_min` of type `Int`
+  """
+  caloriesBurned_min: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`date_min` of type `Date`
+  """
+  date_min: Date_Filter
+  """
+  ✨ Generated from Field `Activity`.`durationMinutes_min` of type `Int`
+  """
+  durationMinutes_min: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`caloriesBurned_max` of type `Int`
+  """
+  caloriesBurned_max: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`date_max` of type `Date`
+  """
+  date_max: Date_Filter
+  """
+  ✨ Generated from Field `Activity`.`durationMinutes_max` of type `Int`
+  """
+  durationMinutes_max: Int_Filter
+}
+"""
+✨ Generated key input type for table 'Activity'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input Activity_Key {
+  """
+  ✨ Generated from Field `Activity`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Activity`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr
+}
+"""
+✨ Generated list filter input type for table 'Activity'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input Activity_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: Activity_Filter
+}
+"""
+✨ Generated order input type for table 'Activity'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input Activity_Order {
+  """
+  ✨ Generated from Field `Activity`.`id` of type `UUID!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`userId` of type `UUID!`
+  """
+  userId: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`user` of type `User!`
+  """
+  user: User_Order
+  """
+  ✨ Generated from Field `Activity`.`caloriesBurned` of type `Int!`
+  """
+  caloriesBurned: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`date` of type `Date!`
+  """
+  date: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`durationMinutes` of type `Int!`
+  """
+  durationMinutes: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`intensity` of type `String`
+  """
+  intensity: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`notes` of type `String`
+  """
+  notes: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`type` of type `String!`
+  """
+  type: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`caloriesBurned_count` of type `Int!`
+  """
+  caloriesBurned_count: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`date_count` of type `Int!`
+  """
+  date_count: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`durationMinutes_count` of type `Int!`
+  """
+  durationMinutes_count: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`intensity_count` of type `Int!`
+  """
+  intensity_count: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`notes_count` of type `Int!`
+  """
+  notes_count: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`type_count` of type `Int!`
+  """
+  type_count: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`userId_count` of type `Int!`
+  """
+  userId_count: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`caloriesBurned_sum` of type `Int`
+  """
+  caloriesBurned_sum: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`durationMinutes_sum` of type `Int`
+  """
+  durationMinutes_sum: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`caloriesBurned_avg` of type `Float`
+  """
+  caloriesBurned_avg: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`durationMinutes_avg` of type `Float`
+  """
+  durationMinutes_avg: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`caloriesBurned_min` of type `Int`
+  """
+  caloriesBurned_min: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`date_min` of type `Date`
+  """
+  date_min: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`durationMinutes_min` of type `Int`
+  """
+  durationMinutes_min: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`caloriesBurned_max` of type `Int`
+  """
+  caloriesBurned_max: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`date_max` of type `Date`
+  """
+  date_max: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`durationMinutes_max` of type `Int`
+  """
+  durationMinutes_max: OrderDirection
+}
+"""
+✨ Generated data input type for table 'FoodLog'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input FoodLog_Data {
+  """
+  ✨ Generated from Field `FoodLog`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `FoodLog`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr
+  """
+  ✨ Generated from Field `FoodLog`.`userId` of type `UUID!`
+  """
+  userId: UUID
+  """
+  ✨ `_expr` server value variant of `userId` (✨ Generated from Field `FoodLog`.`userId` of type `UUID!`)
+  """
+  userId_expr: UUID_Expr
+  """
+  ✨ Generated from Field `FoodLog`.`user` of type `User!`
+  """
+  user: User_Key
+  """
+  ✨ Generated from Field `FoodLog`.`calories` of type `Int!`
+  """
+  calories: Int
+  """
+  ✨ `_expr` server value variant of `calories` (✨ Generated from Field `FoodLog`.`calories` of type `Int!`)
+  """
+  calories_expr: Int_Expr
+  """
+  ✨ `_update` server value variant of `calories` (✨ Generated from Field `FoodLog`.`calories` of type `Int!`)
+  """
+  calories_update: [Int_Update!]
+  """
+  ✨ Generated from Field `FoodLog`.`carbsGrams` of type `Float`
+  """
+  carbsGrams: Float
+  """
+  ✨ `_expr` server value variant of `carbsGrams` (✨ Generated from Field `FoodLog`.`carbsGrams` of type `Float`)
+  """
+  carbsGrams_expr: Float_Expr
+  """
+  ✨ `_update` server value variant of `carbsGrams` (✨ Generated from Field `FoodLog`.`carbsGrams` of type `Float`)
+  """
+  carbsGrams_update: [Float_Update!]
+  """
+  ✨ Generated from Field `FoodLog`.`date` of type `Date!`
+  """
+  date: Date
+  """
+  ✨ `_date` server value variant of `date` (✨ Generated from Field `FoodLog`.`date` of type `Date!`)
+  """
+  date_date: Date_Relative
+  """
+  ✨ `_expr` server value variant of `date` (✨ Generated from Field `FoodLog`.`date` of type `Date!`)
+  """
+  date_expr: Date_Expr
+  """
+  ✨ `_update` server value variant of `date` (✨ Generated from Field `FoodLog`.`date` of type `Date!`)
+  """
+  date_update: [Date_Update!]
+  """
+  ✨ Generated from Field `FoodLog`.`fatGrams` of type `Float`
+  """
+  fatGrams: Float
+  """
+  ✨ `_expr` server value variant of `fatGrams` (✨ Generated from Field `FoodLog`.`fatGrams` of type `Float`)
+  """
+  fatGrams_expr: Float_Expr
+  """
+  ✨ `_update` server value variant of `fatGrams` (✨ Generated from Field `FoodLog`.`fatGrams` of type `Float`)
+  """
+  fatGrams_update: [Float_Update!]
+  """
+  ✨ Generated from Field `FoodLog`.`foodName` of type `String!`
+  """
+  foodName: String
+  """
+  ✨ `_expr` server value variant of `foodName` (✨ Generated from Field `FoodLog`.`foodName` of type `String!`)
+  """
+  foodName_expr: String_Expr
+  """
+  ✨ Generated from Field `FoodLog`.`mealType` of type `String!`
+  """
+  mealType: String
+  """
+  ✨ `_expr` server value variant of `mealType` (✨ Generated from Field `FoodLog`.`mealType` of type `String!`)
+  """
+  mealType_expr: String_Expr
+  """
+  ✨ Generated from Field `FoodLog`.`notes` of type `String`
+  """
+  notes: String
+  """
+  ✨ `_expr` server value variant of `notes` (✨ Generated from Field `FoodLog`.`notes` of type `String`)
+  """
+  notes_expr: String_Expr
+  """
+  ✨ Generated from Field `FoodLog`.`proteinGrams` of type `Float`
+  """
+  proteinGrams: Float
+  """
+  ✨ `_expr` server value variant of `proteinGrams` (✨ Generated from Field `FoodLog`.`proteinGrams` of type `Float`)
+  """
+  proteinGrams_expr: Float_Expr
+  """
+  ✨ `_update` server value variant of `proteinGrams` (✨ Generated from Field `FoodLog`.`proteinGrams` of type `Float`)
+  """
+  proteinGrams_update: [Float_Update!]
+  """
+  ✨ Generated from Field `FoodLog`.`quantity` of type `Float!`
+  """
+  quantity: Float
+  """
+  ✨ `_expr` server value variant of `quantity` (✨ Generated from Field `FoodLog`.`quantity` of type `Float!`)
+  """
+  quantity_expr: Float_Expr
+  """
+  ✨ `_update` server value variant of `quantity` (✨ Generated from Field `FoodLog`.`quantity` of type `Float!`)
+  """
+  quantity_update: [Float_Update!]
+  """
+  ✨ Generated from Field `FoodLog`.`unit` of type `String!`
+  """
+  unit: String
+  """
+  ✨ `_expr` server value variant of `unit` (✨ Generated from Field `FoodLog`.`unit` of type `String!`)
+  """
+  unit_expr: String_Expr
+}
+"""
+✨ Generated filter input type for table 'FoodLog'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input FoodLog_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [FoodLog_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: FoodLog_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [FoodLog_Filter!]
+  """
+  ✨ Generated from Field `FoodLog`.`id` of type `UUID!`
+  """
+  id: UUID_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`userId` of type `UUID!`
+  """
+  userId: UUID_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`user` of type `User!`
+  """
+  user: User_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`calories` of type `Int!`
+  """
+  calories: Int_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`carbsGrams` of type `Float`
+  """
+  carbsGrams: Float_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`date` of type `Date!`
+  """
+  date: Date_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`fatGrams` of type `Float`
+  """
+  fatGrams: Float_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`foodName` of type `String!`
+  """
+  foodName: String_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`mealType` of type `String!`
+  """
+  mealType: String_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`notes` of type `String`
+  """
+  notes: String_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`proteinGrams` of type `Float`
+  """
+  proteinGrams: Float_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`quantity` of type `Float!`
+  """
+  quantity: Float_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`unit` of type `String!`
+  """
+  unit: String_Filter
+}
+"""
+✨ Generated first-row input type for table 'FoodLog'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input FoodLog_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [FoodLog_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: FoodLog_Filter
+}
+"""
+✨ Generated having input type for table 'FoodLog'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input FoodLog_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [FoodLog_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: FoodLog_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [FoodLog_Having!]
+  """
+  ✨ Generated from Field `FoodLog`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`calories_count` of type `Int!`
+  """
+  calories_count: Int_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`carbsGrams_count` of type `Int!`
+  """
+  carbsGrams_count: Int_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`date_count` of type `Int!`
+  """
+  date_count: Int_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`fatGrams_count` of type `Int!`
+  """
+  fatGrams_count: Int_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`foodName_count` of type `Int!`
+  """
+  foodName_count: Int_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`mealType_count` of type `Int!`
+  """
+  mealType_count: Int_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`notes_count` of type `Int!`
+  """
+  notes_count: Int_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`proteinGrams_count` of type `Int!`
+  """
+  proteinGrams_count: Int_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`quantity_count` of type `Int!`
+  """
+  quantity_count: Int_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`unit_count` of type `Int!`
+  """
+  unit_count: Int_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`userId_count` of type `Int!`
+  """
+  userId_count: Int_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`calories_sum` of type `Int`
+  """
+  calories_sum: Int_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`carbsGrams_sum` of type `Float`
+  """
+  carbsGrams_sum: Float_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`fatGrams_sum` of type `Float`
+  """
+  fatGrams_sum: Float_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`proteinGrams_sum` of type `Float`
+  """
+  proteinGrams_sum: Float_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`quantity_sum` of type `Float`
+  """
+  quantity_sum: Float_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`calories_avg` of type `Float`
+  """
+  calories_avg: Float_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`carbsGrams_avg` of type `Float`
+  """
+  carbsGrams_avg: Float_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`fatGrams_avg` of type `Float`
+  """
+  fatGrams_avg: Float_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`proteinGrams_avg` of type `Float`
+  """
+  proteinGrams_avg: Float_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`quantity_avg` of type `Float`
+  """
+  quantity_avg: Float_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`calories_min` of type `Int`
+  """
+  calories_min: Int_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`carbsGrams_min` of type `Float`
+  """
+  carbsGrams_min: Float_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`date_min` of type `Date`
+  """
+  date_min: Date_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`fatGrams_min` of type `Float`
+  """
+  fatGrams_min: Float_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`proteinGrams_min` of type `Float`
+  """
+  proteinGrams_min: Float_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`quantity_min` of type `Float`
+  """
+  quantity_min: Float_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`calories_max` of type `Int`
+  """
+  calories_max: Int_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`carbsGrams_max` of type `Float`
+  """
+  carbsGrams_max: Float_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`date_max` of type `Date`
+  """
+  date_max: Date_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`fatGrams_max` of type `Float`
+  """
+  fatGrams_max: Float_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`proteinGrams_max` of type `Float`
+  """
+  proteinGrams_max: Float_Filter
+  """
+  ✨ Generated from Field `FoodLog`.`quantity_max` of type `Float`
+  """
+  quantity_max: Float_Filter
+}
+"""
+✨ Generated key input type for table 'FoodLog'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input FoodLog_Key {
+  """
+  ✨ Generated from Field `FoodLog`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `FoodLog`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr
+}
+"""
+✨ Generated list filter input type for table 'FoodLog'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input FoodLog_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: FoodLog_Filter
+}
+"""
+✨ Generated order input type for table 'FoodLog'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input FoodLog_Order {
+  """
+  ✨ Generated from Field `FoodLog`.`id` of type `UUID!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`userId` of type `UUID!`
+  """
+  userId: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`user` of type `User!`
+  """
+  user: User_Order
+  """
+  ✨ Generated from Field `FoodLog`.`calories` of type `Int!`
+  """
+  calories: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`carbsGrams` of type `Float`
+  """
+  carbsGrams: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`date` of type `Date!`
+  """
+  date: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`fatGrams` of type `Float`
+  """
+  fatGrams: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`foodName` of type `String!`
+  """
+  foodName: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`mealType` of type `String!`
+  """
+  mealType: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`notes` of type `String`
+  """
+  notes: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`proteinGrams` of type `Float`
+  """
+  proteinGrams: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`quantity` of type `Float!`
+  """
+  quantity: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`unit` of type `String!`
+  """
+  unit: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`calories_count` of type `Int!`
+  """
+  calories_count: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`carbsGrams_count` of type `Int!`
+  """
+  carbsGrams_count: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`date_count` of type `Int!`
+  """
+  date_count: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`fatGrams_count` of type `Int!`
+  """
+  fatGrams_count: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`foodName_count` of type `Int!`
+  """
+  foodName_count: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`mealType_count` of type `Int!`
+  """
+  mealType_count: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`notes_count` of type `Int!`
+  """
+  notes_count: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`proteinGrams_count` of type `Int!`
+  """
+  proteinGrams_count: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`quantity_count` of type `Int!`
+  """
+  quantity_count: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`unit_count` of type `Int!`
+  """
+  unit_count: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`userId_count` of type `Int!`
+  """
+  userId_count: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`calories_sum` of type `Int`
+  """
+  calories_sum: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`carbsGrams_sum` of type `Float`
+  """
+  carbsGrams_sum: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`fatGrams_sum` of type `Float`
+  """
+  fatGrams_sum: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`proteinGrams_sum` of type `Float`
+  """
+  proteinGrams_sum: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`quantity_sum` of type `Float`
+  """
+  quantity_sum: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`calories_avg` of type `Float`
+  """
+  calories_avg: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`carbsGrams_avg` of type `Float`
+  """
+  carbsGrams_avg: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`fatGrams_avg` of type `Float`
+  """
+  fatGrams_avg: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`proteinGrams_avg` of type `Float`
+  """
+  proteinGrams_avg: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`quantity_avg` of type `Float`
+  """
+  quantity_avg: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`calories_min` of type `Int`
+  """
+  calories_min: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`carbsGrams_min` of type `Float`
+  """
+  carbsGrams_min: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`date_min` of type `Date`
+  """
+  date_min: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`fatGrams_min` of type `Float`
+  """
+  fatGrams_min: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`proteinGrams_min` of type `Float`
+  """
+  proteinGrams_min: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`quantity_min` of type `Float`
+  """
+  quantity_min: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`calories_max` of type `Int`
+  """
+  calories_max: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`carbsGrams_max` of type `Float`
+  """
+  carbsGrams_max: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`date_max` of type `Date`
+  """
+  date_max: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`fatGrams_max` of type `Float`
+  """
+  fatGrams_max: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`proteinGrams_max` of type `Float`
+  """
+  proteinGrams_max: OrderDirection
+  """
+  ✨ Generated from Field `FoodLog`.`quantity_max` of type `Float`
+  """
+  quantity_max: OrderDirection
+}
+"""
+✨ Generated data input type for table 'Goal'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input Goal_Data {
+  """
+  ✨ Generated from Field `Goal`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Goal`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr
+  """
+  ✨ Generated from Field `Goal`.`userId` of type `UUID!`
+  """
+  userId: UUID
+  """
+  ✨ `_expr` server value variant of `userId` (✨ Generated from Field `Goal`.`userId` of type `UUID!`)
+  """
+  userId_expr: UUID_Expr
+  """
+  ✨ Generated from Field `Goal`.`user` of type `User!`
+  """
+  user: User_Key
+  """
+  ✨ Generated from Field `Goal`.`description` of type `String`
+  """
+  description: String
+  """
+  ✨ `_expr` server value variant of `description` (✨ Generated from Field `Goal`.`description` of type `String`)
+  """
+  description_expr: String_Expr
+  """
+  ✨ Generated from Field `Goal`.`endDate` of type `Date!`
+  """
+  endDate: Date
+  """
+  ✨ `_date` server value variant of `endDate` (✨ Generated from Field `Goal`.`endDate` of type `Date!`)
+  """
+  endDate_date: Date_Relative
+  """
+  ✨ `_expr` server value variant of `endDate` (✨ Generated from Field `Goal`.`endDate` of type `Date!`)
+  """
+  endDate_expr: Date_Expr
+  """
+  ✨ `_update` server value variant of `endDate` (✨ Generated from Field `Goal`.`endDate` of type `Date!`)
+  """
+  endDate_update: [Date_Update!]
+  """
+  ✨ Generated from Field `Goal`.`name` of type `String!`
+  """
+  name: String
+  """
+  ✨ `_expr` server value variant of `name` (✨ Generated from Field `Goal`.`name` of type `String!`)
+  """
+  name_expr: String_Expr
+  """
+  ✨ Generated from Field `Goal`.`reminderFrequency` of type `String`
+  """
+  reminderFrequency: String
+  """
+  ✨ `_expr` server value variant of `reminderFrequency` (✨ Generated from Field `Goal`.`reminderFrequency` of type `String`)
+  """
+  reminderFrequency_expr: String_Expr
+  """
+  ✨ Generated from Field `Goal`.`startDate` of type `Date!`
+  """
+  startDate: Date
+  """
+  ✨ `_date` server value variant of `startDate` (✨ Generated from Field `Goal`.`startDate` of type `Date!`)
+  """
+  startDate_date: Date_Relative
+  """
+  ✨ `_expr` server value variant of `startDate` (✨ Generated from Field `Goal`.`startDate` of type `Date!`)
+  """
+  startDate_expr: Date_Expr
+  """
+  ✨ `_update` server value variant of `startDate` (✨ Generated from Field `Goal`.`startDate` of type `Date!`)
+  """
+  startDate_update: [Date_Update!]
+  """
+  ✨ Generated from Field `Goal`.`status` of type `String!`
+  """
+  status: String
+  """
+  ✨ `_expr` server value variant of `status` (✨ Generated from Field `Goal`.`status` of type `String!`)
+  """
+  status_expr: String_Expr
+  """
+  ✨ Generated from Field `Goal`.`targetValue` of type `Float!`
+  """
+  targetValue: Float
+  """
+  ✨ `_expr` server value variant of `targetValue` (✨ Generated from Field `Goal`.`targetValue` of type `Float!`)
+  """
+  targetValue_expr: Float_Expr
+  """
+  ✨ `_update` server value variant of `targetValue` (✨ Generated from Field `Goal`.`targetValue` of type `Float!`)
+  """
+  targetValue_update: [Float_Update!]
+  """
+  ✨ Generated from Field `Goal`.`unit` of type `String!`
+  """
+  unit: String
+  """
+  ✨ `_expr` server value variant of `unit` (✨ Generated from Field `Goal`.`unit` of type `String!`)
+  """
+  unit_expr: String_Expr
+}
+"""
+✨ Generated filter input type for table 'Goal'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Goal_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [Goal_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: Goal_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [Goal_Filter!]
+  """
+  ✨ Generated from Field `Goal`.`id` of type `UUID!`
+  """
+  id: UUID_Filter
+  """
+  ✨ Generated from Field `Goal`.`userId` of type `UUID!`
+  """
+  userId: UUID_Filter
+  """
+  ✨ Generated from Field `Goal`.`user` of type `User!`
+  """
+  user: User_Filter
+  """
+  ✨ Generated from Field `Goal`.`description` of type `String`
+  """
+  description: String_Filter
+  """
+  ✨ Generated from Field `Goal`.`endDate` of type `Date!`
+  """
+  endDate: Date_Filter
+  """
+  ✨ Generated from Field `Goal`.`name` of type `String!`
+  """
+  name: String_Filter
+  """
+  ✨ Generated from Field `Goal`.`reminderFrequency` of type `String`
+  """
+  reminderFrequency: String_Filter
+  """
+  ✨ Generated from Field `Goal`.`startDate` of type `Date!`
+  """
+  startDate: Date_Filter
+  """
+  ✨ Generated from Field `Goal`.`status` of type `String!`
+  """
+  status: String_Filter
+  """
+  ✨ Generated from Field `Goal`.`targetValue` of type `Float!`
+  """
+  targetValue: Float_Filter
+  """
+  ✨ Generated from Field `Goal`.`unit` of type `String!`
+  """
+  unit: String_Filter
+}
+"""
+✨ Generated first-row input type for table 'Goal'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input Goal_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [Goal_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: Goal_Filter
+}
+"""
+✨ Generated having input type for table 'Goal'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Goal_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [Goal_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: Goal_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [Goal_Having!]
+  """
+  ✨ Generated from Field `Goal`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `Goal`.`description_count` of type `Int!`
+  """
+  description_count: Int_Filter
+  """
+  ✨ Generated from Field `Goal`.`endDate_count` of type `Int!`
+  """
+  endDate_count: Int_Filter
+  """
+  ✨ Generated from Field `Goal`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `Goal`.`name_count` of type `Int!`
+  """
+  name_count: Int_Filter
+  """
+  ✨ Generated from Field `Goal`.`reminderFrequency_count` of type `Int!`
+  """
+  reminderFrequency_count: Int_Filter
+  """
+  ✨ Generated from Field `Goal`.`startDate_count` of type `Int!`
+  """
+  startDate_count: Int_Filter
+  """
+  ✨ Generated from Field `Goal`.`status_count` of type `Int!`
+  """
+  status_count: Int_Filter
+  """
+  ✨ Generated from Field `Goal`.`targetValue_count` of type `Int!`
+  """
+  targetValue_count: Int_Filter
+  """
+  ✨ Generated from Field `Goal`.`unit_count` of type `Int!`
+  """
+  unit_count: Int_Filter
+  """
+  ✨ Generated from Field `Goal`.`userId_count` of type `Int!`
+  """
+  userId_count: Int_Filter
+  """
+  ✨ Generated from Field `Goal`.`targetValue_sum` of type `Float`
+  """
+  targetValue_sum: Float_Filter
+  """
+  ✨ Generated from Field `Goal`.`targetValue_avg` of type `Float`
+  """
+  targetValue_avg: Float_Filter
+  """
+  ✨ Generated from Field `Goal`.`endDate_min` of type `Date`
+  """
+  endDate_min: Date_Filter
+  """
+  ✨ Generated from Field `Goal`.`startDate_min` of type `Date`
+  """
+  startDate_min: Date_Filter
+  """
+  ✨ Generated from Field `Goal`.`targetValue_min` of type `Float`
+  """
+  targetValue_min: Float_Filter
+  """
+  ✨ Generated from Field `Goal`.`endDate_max` of type `Date`
+  """
+  endDate_max: Date_Filter
+  """
+  ✨ Generated from Field `Goal`.`startDate_max` of type `Date`
+  """
+  startDate_max: Date_Filter
+  """
+  ✨ Generated from Field `Goal`.`targetValue_max` of type `Float`
+  """
+  targetValue_max: Float_Filter
+}
+"""
+✨ Generated key input type for table 'Goal'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input Goal_Key {
+  """
+  ✨ Generated from Field `Goal`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Goal`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr
+}
+"""
+✨ Generated list filter input type for table 'Goal'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input Goal_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: Goal_Filter
+}
+"""
+✨ Generated order input type for table 'Goal'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input Goal_Order {
+  """
+  ✨ Generated from Field `Goal`.`id` of type `UUID!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`userId` of type `UUID!`
+  """
+  userId: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`user` of type `User!`
+  """
+  user: User_Order
+  """
+  ✨ Generated from Field `Goal`.`description` of type `String`
+  """
+  description: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`endDate` of type `Date!`
+  """
+  endDate: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`name` of type `String!`
+  """
+  name: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`reminderFrequency` of type `String`
+  """
+  reminderFrequency: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`startDate` of type `Date!`
+  """
+  startDate: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`status` of type `String!`
+  """
+  status: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`targetValue` of type `Float!`
+  """
+  targetValue: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`unit` of type `String!`
+  """
+  unit: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`description_count` of type `Int!`
+  """
+  description_count: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`endDate_count` of type `Int!`
+  """
+  endDate_count: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`name_count` of type `Int!`
+  """
+  name_count: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`reminderFrequency_count` of type `Int!`
+  """
+  reminderFrequency_count: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`startDate_count` of type `Int!`
+  """
+  startDate_count: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`status_count` of type `Int!`
+  """
+  status_count: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`targetValue_count` of type `Int!`
+  """
+  targetValue_count: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`unit_count` of type `Int!`
+  """
+  unit_count: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`userId_count` of type `Int!`
+  """
+  userId_count: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`targetValue_sum` of type `Float`
+  """
+  targetValue_sum: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`targetValue_avg` of type `Float`
+  """
+  targetValue_avg: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`endDate_min` of type `Date`
+  """
+  endDate_min: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`startDate_min` of type `Date`
+  """
+  startDate_min: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`targetValue_min` of type `Float`
+  """
+  targetValue_min: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`endDate_max` of type `Date`
+  """
+  endDate_max: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`startDate_max` of type `Date`
+  """
+  startDate_max: OrderDirection
+  """
+  ✨ Generated from Field `Goal`.`targetValue_max` of type `Float`
+  """
+  targetValue_max: OrderDirection
+}
+"""
+✨ Generated data input type for table 'MetricEntry'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input MetricEntry_Data {
+  """
+  ✨ Generated from Field `MetricEntry`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `MetricEntry`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr
+  """
+  ✨ Generated from Field `MetricEntry`.`userId` of type `UUID!`
+  """
+  userId: UUID
+  """
+  ✨ `_expr` server value variant of `userId` (✨ Generated from Field `MetricEntry`.`userId` of type `UUID!`)
+  """
+  userId_expr: UUID_Expr
+  """
+  ✨ Generated from Field `MetricEntry`.`user` of type `User!`
+  """
+  user: User_Key
+  """
+  ✨ Generated from Field `MetricEntry`.`date` of type `Date!`
+  """
+  date: Date
+  """
+  ✨ `_date` server value variant of `date` (✨ Generated from Field `MetricEntry`.`date` of type `Date!`)
+  """
+  date_date: Date_Relative
+  """
+  ✨ `_expr` server value variant of `date` (✨ Generated from Field `MetricEntry`.`date` of type `Date!`)
+  """
+  date_expr: Date_Expr
+  """
+  ✨ `_update` server value variant of `date` (✨ Generated from Field `MetricEntry`.`date` of type `Date!`)
+  """
+  date_update: [Date_Update!]
+  """
+  ✨ Generated from Field `MetricEntry`.`metricType` of type `String!`
+  """
+  metricType: String
+  """
+  ✨ `_expr` server value variant of `metricType` (✨ Generated from Field `MetricEntry`.`metricType` of type `String!`)
+  """
+  metricType_expr: String_Expr
+  """
+  ✨ Generated from Field `MetricEntry`.`notes` of type `String`
+  """
+  notes: String
+  """
+  ✨ `_expr` server value variant of `notes` (✨ Generated from Field `MetricEntry`.`notes` of type `String`)
+  """
+  notes_expr: String_Expr
+  """
+  ✨ Generated from Field `MetricEntry`.`unit` of type `String!`
+  """
+  unit: String
+  """
+  ✨ `_expr` server value variant of `unit` (✨ Generated from Field `MetricEntry`.`unit` of type `String!`)
+  """
+  unit_expr: String_Expr
+  """
+  ✨ Generated from Field `MetricEntry`.`value` of type `Float!`
+  """
+  value: Float
+  """
+  ✨ `_expr` server value variant of `value` (✨ Generated from Field `MetricEntry`.`value` of type `Float!`)
+  """
+  value_expr: Float_Expr
+  """
+  ✨ `_update` server value variant of `value` (✨ Generated from Field `MetricEntry`.`value` of type `Float!`)
+  """
+  value_update: [Float_Update!]
+}
+"""
+✨ Generated filter input type for table 'MetricEntry'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input MetricEntry_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [MetricEntry_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: MetricEntry_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [MetricEntry_Filter!]
+  """
+  ✨ Generated from Field `MetricEntry`.`id` of type `UUID!`
+  """
+  id: UUID_Filter
+  """
+  ✨ Generated from Field `MetricEntry`.`userId` of type `UUID!`
+  """
+  userId: UUID_Filter
+  """
+  ✨ Generated from Field `MetricEntry`.`user` of type `User!`
+  """
+  user: User_Filter
+  """
+  ✨ Generated from Field `MetricEntry`.`date` of type `Date!`
+  """
+  date: Date_Filter
+  """
+  ✨ Generated from Field `MetricEntry`.`metricType` of type `String!`
+  """
+  metricType: String_Filter
+  """
+  ✨ Generated from Field `MetricEntry`.`notes` of type `String`
+  """
+  notes: String_Filter
+  """
+  ✨ Generated from Field `MetricEntry`.`unit` of type `String!`
+  """
+  unit: String_Filter
+  """
+  ✨ Generated from Field `MetricEntry`.`value` of type `Float!`
+  """
+  value: Float_Filter
+}
+"""
+✨ Generated first-row input type for table 'MetricEntry'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input MetricEntry_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [MetricEntry_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: MetricEntry_Filter
+}
+"""
+✨ Generated having input type for table 'MetricEntry'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input MetricEntry_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [MetricEntry_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: MetricEntry_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [MetricEntry_Having!]
+  """
+  ✨ Generated from Field `MetricEntry`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `MetricEntry`.`date_count` of type `Int!`
+  """
+  date_count: Int_Filter
+  """
+  ✨ Generated from Field `MetricEntry`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `MetricEntry`.`metricType_count` of type `Int!`
+  """
+  metricType_count: Int_Filter
+  """
+  ✨ Generated from Field `MetricEntry`.`notes_count` of type `Int!`
+  """
+  notes_count: Int_Filter
+  """
+  ✨ Generated from Field `MetricEntry`.`unit_count` of type `Int!`
+  """
+  unit_count: Int_Filter
+  """
+  ✨ Generated from Field `MetricEntry`.`userId_count` of type `Int!`
+  """
+  userId_count: Int_Filter
+  """
+  ✨ Generated from Field `MetricEntry`.`value_count` of type `Int!`
+  """
+  value_count: Int_Filter
+  """
+  ✨ Generated from Field `MetricEntry`.`value_sum` of type `Float`
+  """
+  value_sum: Float_Filter
+  """
+  ✨ Generated from Field `MetricEntry`.`value_avg` of type `Float`
+  """
+  value_avg: Float_Filter
+  """
+  ✨ Generated from Field `MetricEntry`.`date_min` of type `Date`
+  """
+  date_min: Date_Filter
+  """
+  ✨ Generated from Field `MetricEntry`.`value_min` of type `Float`
+  """
+  value_min: Float_Filter
+  """
+  ✨ Generated from Field `MetricEntry`.`date_max` of type `Date`
+  """
+  date_max: Date_Filter
+  """
+  ✨ Generated from Field `MetricEntry`.`value_max` of type `Float`
+  """
+  value_max: Float_Filter
+}
+"""
+✨ Generated key input type for table 'MetricEntry'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input MetricEntry_Key {
+  """
+  ✨ Generated from Field `MetricEntry`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `MetricEntry`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr
+}
+"""
+✨ Generated list filter input type for table 'MetricEntry'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input MetricEntry_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: MetricEntry_Filter
+}
+"""
+✨ Generated order input type for table 'MetricEntry'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input MetricEntry_Order {
+  """
+  ✨ Generated from Field `MetricEntry`.`id` of type `UUID!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `MetricEntry`.`userId` of type `UUID!`
+  """
+  userId: OrderDirection
+  """
+  ✨ Generated from Field `MetricEntry`.`user` of type `User!`
+  """
+  user: User_Order
+  """
+  ✨ Generated from Field `MetricEntry`.`date` of type `Date!`
+  """
+  date: OrderDirection
+  """
+  ✨ Generated from Field `MetricEntry`.`metricType` of type `String!`
+  """
+  metricType: OrderDirection
+  """
+  ✨ Generated from Field `MetricEntry`.`notes` of type `String`
+  """
+  notes: OrderDirection
+  """
+  ✨ Generated from Field `MetricEntry`.`unit` of type `String!`
+  """
+  unit: OrderDirection
+  """
+  ✨ Generated from Field `MetricEntry`.`value` of type `Float!`
+  """
+  value: OrderDirection
+  """
+  ✨ Generated from Field `MetricEntry`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `MetricEntry`.`date_count` of type `Int!`
+  """
+  date_count: OrderDirection
+  """
+  ✨ Generated from Field `MetricEntry`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `MetricEntry`.`metricType_count` of type `Int!`
+  """
+  metricType_count: OrderDirection
+  """
+  ✨ Generated from Field `MetricEntry`.`notes_count` of type `Int!`
+  """
+  notes_count: OrderDirection
+  """
+  ✨ Generated from Field `MetricEntry`.`unit_count` of type `Int!`
+  """
+  unit_count: OrderDirection
+  """
+  ✨ Generated from Field `MetricEntry`.`userId_count` of type `Int!`
+  """
+  userId_count: OrderDirection
+  """
+  ✨ Generated from Field `MetricEntry`.`value_count` of type `Int!`
+  """
+  value_count: OrderDirection
+  """
+  ✨ Generated from Field `MetricEntry`.`value_sum` of type `Float`
+  """
+  value_sum: OrderDirection
+  """
+  ✨ Generated from Field `MetricEntry`.`value_avg` of type `Float`
+  """
+  value_avg: OrderDirection
+  """
+  ✨ Generated from Field `MetricEntry`.`date_min` of type `Date`
+  """
+  date_min: OrderDirection
+  """
+  ✨ Generated from Field `MetricEntry`.`value_min` of type `Float`
+  """
+  value_min: OrderDirection
+  """
+  ✨ Generated from Field `MetricEntry`.`date_max` of type `Date`
+  """
+  date_max: OrderDirection
+  """
+  ✨ Generated from Field `MetricEntry`.`value_max` of type `Float`
+  """
+  value_max: OrderDirection
+}
+"""
+✨ Generated data input type for table 'User'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input User_Data {
+  """
+  ✨ Generated from Field `User`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `User`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr
+  """
+  ✨ Generated from Field `User`.`createdAt` of type `Timestamp!`
+  """
+  createdAt: Timestamp
+  """
+  ✨ `_expr` server value variant of `createdAt` (✨ Generated from Field `User`.`createdAt` of type `Timestamp!`)
+  """
+  createdAt_expr: Timestamp_Expr
+  """
+  ✨ `_time` server value variant of `createdAt` (✨ Generated from Field `User`.`createdAt` of type `Timestamp!`)
+  """
+  createdAt_time: Timestamp_Relative
+  """
+  ✨ `_update` server value variant of `createdAt` (✨ Generated from Field `User`.`createdAt` of type `Timestamp!`)
+  """
+  createdAt_update: [Timestamp_Update!]
+  """
+  ✨ Generated from Field `User`.`dateOfBirth` of type `Date`
+  """
+  dateOfBirth: Date
+  """
+  ✨ `_date` server value variant of `dateOfBirth` (✨ Generated from Field `User`.`dateOfBirth` of type `Date`)
+  """
+  dateOfBirth_date: Date_Relative
+  """
+  ✨ `_expr` server value variant of `dateOfBirth` (✨ Generated from Field `User`.`dateOfBirth` of type `Date`)
+  """
+  dateOfBirth_expr: Date_Expr
+  """
+  ✨ `_update` server value variant of `dateOfBirth` (✨ Generated from Field `User`.`dateOfBirth` of type `Date`)
+  """
+  dateOfBirth_update: [Date_Update!]
+  """
+  ✨ Generated from Field `User`.`displayName` of type `String!`
+  """
+  displayName: String
+  """
+  ✨ `_expr` server value variant of `displayName` (✨ Generated from Field `User`.`displayName` of type `String!`)
+  """
+  displayName_expr: String_Expr
+  """
+  ✨ Generated from Field `User`.`email` of type `String!`
+  """
+  email: String
+  """
+  ✨ `_expr` server value variant of `email` (✨ Generated from Field `User`.`email` of type `String!`)
+  """
+  email_expr: String_Expr
+  """
+  ✨ Generated from Field `User`.`gender` of type `String`
+  """
+  gender: String
+  """
+  ✨ `_expr` server value variant of `gender` (✨ Generated from Field `User`.`gender` of type `String`)
+  """
+  gender_expr: String_Expr
+  """
+  ✨ Generated from Field `User`.`height` of type `Float`
+  """
+  height: Float
+  """
+  ✨ `_expr` server value variant of `height` (✨ Generated from Field `User`.`height` of type `Float`)
+  """
+  height_expr: Float_Expr
+  """
+  ✨ `_update` server value variant of `height` (✨ Generated from Field `User`.`height` of type `Float`)
+  """
+  height_update: [Float_Update!]
+  """
+  ✨ Generated from Field `User`.`photoUrl` of type `String`
+  """
+  photoUrl: String
+  """
+  ✨ `_expr` server value variant of `photoUrl` (✨ Generated from Field `User`.`photoUrl` of type `String`)
+  """
+  photoUrl_expr: String_Expr
+  """
+  ✨ Generated from Field `User`.`weight` of type `Float`
+  """
+  weight: Float
+  """
+  ✨ `_expr` server value variant of `weight` (✨ Generated from Field `User`.`weight` of type `Float`)
+  """
+  weight_expr: Float_Expr
+  """
+  ✨ `_update` server value variant of `weight` (✨ Generated from Field `User`.`weight` of type `Float`)
+  """
+  weight_update: [Float_Update!]
+}
+"""
+✨ Generated filter input type for table 'User'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input User_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [User_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: User_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [User_Filter!]
+  """
+  ✨ Generated from Field `User`.`id` of type `UUID!`
+  """
+  id: UUID_Filter
+  """
+  ✨ Generated from Field `User`.`createdAt` of type `Timestamp!`
+  """
+  createdAt: Timestamp_Filter
+  """
+  ✨ Generated from Field `User`.`dateOfBirth` of type `Date`
+  """
+  dateOfBirth: Date_Filter
+  """
+  ✨ Generated from Field `User`.`displayName` of type `String!`
+  """
+  displayName: String_Filter
+  """
+  ✨ Generated from Field `User`.`email` of type `String!`
+  """
+  email: String_Filter
+  """
+  ✨ Generated from Field `User`.`gender` of type `String`
+  """
+  gender: String_Filter
+  """
+  ✨ Generated from Field `User`.`height` of type `Float`
+  """
+  height: Float_Filter
+  """
+  ✨ Generated from Field `User`.`photoUrl` of type `String`
+  """
+  photoUrl: String_Filter
+  """
+  ✨ Generated from Field `User`.`weight` of type `Float`
+  """
+  weight: Float_Filter
+  """
+  ✨ Generated from Field `User`.`activities_on_user` of type `[Activity!]!`
+  """
+  activities_on_user: Activity_ListFilter
+  """
+  ✨ Generated from Field `User`.`foodLogs_on_user` of type `[FoodLog!]!`
+  """
+  foodLogs_on_user: FoodLog_ListFilter
+  """
+  ✨ Generated from Field `User`.`goals_on_user` of type `[Goal!]!`
+  """
+  goals_on_user: Goal_ListFilter
+  """
+  ✨ Generated from Field `User`.`metricEntries_on_user` of type `[MetricEntry!]!`
+  """
+  metricEntries_on_user: MetricEntry_ListFilter
+}
+"""
+✨ Generated first-row input type for table 'User'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input User_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [User_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: User_Filter
+}
+"""
+✨ Generated having input type for table 'User'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input User_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [User_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: User_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [User_Having!]
+  """
+  ✨ Generated from Field `User`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `User`.`createdAt_count` of type `Int!`
+  """
+  createdAt_count: Int_Filter
+  """
+  ✨ Generated from Field `User`.`dateOfBirth_count` of type `Int!`
+  """
+  dateOfBirth_count: Int_Filter
+  """
+  ✨ Generated from Field `User`.`displayName_count` of type `Int!`
+  """
+  displayName_count: Int_Filter
+  """
+  ✨ Generated from Field `User`.`email_count` of type `Int!`
+  """
+  email_count: Int_Filter
+  """
+  ✨ Generated from Field `User`.`gender_count` of type `Int!`
+  """
+  gender_count: Int_Filter
+  """
+  ✨ Generated from Field `User`.`height_count` of type `Int!`
+  """
+  height_count: Int_Filter
+  """
+  ✨ Generated from Field `User`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `User`.`photoUrl_count` of type `Int!`
+  """
+  photoUrl_count: Int_Filter
+  """
+  ✨ Generated from Field `User`.`weight_count` of type `Int!`
+  """
+  weight_count: Int_Filter
+  """
+  ✨ Generated from Field `User`.`height_sum` of type `Float`
+  """
+  height_sum: Float_Filter
+  """
+  ✨ Generated from Field `User`.`weight_sum` of type `Float`
+  """
+  weight_sum: Float_Filter
+  """
+  ✨ Generated from Field `User`.`height_avg` of type `Float`
+  """
+  height_avg: Float_Filter
+  """
+  ✨ Generated from Field `User`.`weight_avg` of type `Float`
+  """
+  weight_avg: Float_Filter
+  """
+  ✨ Generated from Field `User`.`createdAt_min` of type `Timestamp`
+  """
+  createdAt_min: Timestamp_Filter
+  """
+  ✨ Generated from Field `User`.`dateOfBirth_min` of type `Date`
+  """
+  dateOfBirth_min: Date_Filter
+  """
+  ✨ Generated from Field `User`.`height_min` of type `Float`
+  """
+  height_min: Float_Filter
+  """
+  ✨ Generated from Field `User`.`weight_min` of type `Float`
+  """
+  weight_min: Float_Filter
+  """
+  ✨ Generated from Field `User`.`createdAt_max` of type `Timestamp`
+  """
+  createdAt_max: Timestamp_Filter
+  """
+  ✨ Generated from Field `User`.`dateOfBirth_max` of type `Date`
+  """
+  dateOfBirth_max: Date_Filter
+  """
+  ✨ Generated from Field `User`.`height_max` of type `Float`
+  """
+  height_max: Float_Filter
+  """
+  ✨ Generated from Field `User`.`weight_max` of type `Float`
+  """
+  weight_max: Float_Filter
+}
+"""
+✨ Generated key input type for table 'User'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input User_Key {
+  """
+  ✨ Generated from Field `User`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `User`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr
+}
+"""
+✨ Generated list filter input type for table 'User'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input User_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: User_Filter
+}
+"""
+✨ Generated order input type for table 'User'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input User_Order {
+  """
+  ✨ Generated from Field `User`.`id` of type `UUID!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `User`.`createdAt` of type `Timestamp!`
+  """
+  createdAt: OrderDirection
+  """
+  ✨ Generated from Field `User`.`dateOfBirth` of type `Date`
+  """
+  dateOfBirth: OrderDirection
+  """
+  ✨ Generated from Field `User`.`displayName` of type `String!`
+  """
+  displayName: OrderDirection
+  """
+  ✨ Generated from Field `User`.`email` of type `String!`
+  """
+  email: OrderDirection
+  """
+  ✨ Generated from Field `User`.`gender` of type `String`
+  """
+  gender: OrderDirection
+  """
+  ✨ Generated from Field `User`.`height` of type `Float`
+  """
+  height: OrderDirection
+  """
+  ✨ Generated from Field `User`.`photoUrl` of type `String`
+  """
+  photoUrl: OrderDirection
+  """
+  ✨ Generated from Field `User`.`weight` of type `Float`
+  """
+  weight: OrderDirection
+  """
+  ✨ Generated from Field `User`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `User`.`createdAt_count` of type `Int!`
+  """
+  createdAt_count: OrderDirection
+  """
+  ✨ Generated from Field `User`.`dateOfBirth_count` of type `Int!`
+  """
+  dateOfBirth_count: OrderDirection
+  """
+  ✨ Generated from Field `User`.`displayName_count` of type `Int!`
+  """
+  displayName_count: OrderDirection
+  """
+  ✨ Generated from Field `User`.`email_count` of type `Int!`
+  """
+  email_count: OrderDirection
+  """
+  ✨ Generated from Field `User`.`gender_count` of type `Int!`
+  """
+  gender_count: OrderDirection
+  """
+  ✨ Generated from Field `User`.`height_count` of type `Int!`
+  """
+  height_count: OrderDirection
+  """
+  ✨ Generated from Field `User`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `User`.`photoUrl_count` of type `Int!`
+  """
+  photoUrl_count: OrderDirection
+  """
+  ✨ Generated from Field `User`.`weight_count` of type `Int!`
+  """
+  weight_count: OrderDirection
+  """
+  ✨ Generated from Field `User`.`height_sum` of type `Float`
+  """
+  height_sum: OrderDirection
+  """
+  ✨ Generated from Field `User`.`weight_sum` of type `Float`
+  """
+  weight_sum: OrderDirection
+  """
+  ✨ Generated from Field `User`.`height_avg` of type `Float`
+  """
+  height_avg: OrderDirection
+  """
+  ✨ Generated from Field `User`.`weight_avg` of type `Float`
+  """
+  weight_avg: OrderDirection
+  """
+  ✨ Generated from Field `User`.`createdAt_min` of type `Timestamp`
+  """
+  createdAt_min: OrderDirection
+  """
+  ✨ Generated from Field `User`.`dateOfBirth_min` of type `Date`
+  """
+  dateOfBirth_min: OrderDirection
+  """
+  ✨ Generated from Field `User`.`height_min` of type `Float`
+  """
+  height_min: OrderDirection
+  """
+  ✨ Generated from Field `User`.`weight_min` of type `Float`
+  """
+  weight_min: OrderDirection
+  """
+  ✨ Generated from Field `User`.`createdAt_max` of type `Timestamp`
+  """
+  createdAt_max: OrderDirection
+  """
+  ✨ Generated from Field `User`.`dateOfBirth_max` of type `Date`
+  """
+  dateOfBirth_max: OrderDirection
+  """
+  ✨ Generated from Field `User`.`height_max` of type `Float`
+  """
+  height_max: OrderDirection
+  """
+  ✨ Generated from Field `User`.`weight_max` of type `Float`
+  """
+  weight_max: OrderDirection
+}

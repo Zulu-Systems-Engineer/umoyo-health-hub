@@ -79,7 +79,7 @@ export default function ChatInterface({
 
     queryMutation.mutate({
       message,
-      sessionId: sessionId,
+      sessionId: sessionId ?? undefined,
       context: {
         audience: role === "patient" ? "patient" : "healthcare-professional",
         language: "en",
@@ -223,7 +223,7 @@ export default function ChatInterface({
                 </p>
                 
                 {/* Quick Actions */}
-                <div className="mb-8">
+                {/* <div className="mb-8">
                   <div className="flex items-center justify-center gap-2 mb-4">
                     <Sparkles className="h-5 w-5 text-blue-600" />
                     <h3 className="font-semibold text-gray-900 text-lg">Quick Actions</h3>
@@ -241,8 +241,8 @@ export default function ChatInterface({
                         </div>
                       </button>
                     ))}
-                  </div>
-                </div>
+                  </div> 
+              </div> */}
 
                 {/* Tips Section */}
                 <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 mb-6 border border-blue-200 shadow-sm">
@@ -349,7 +349,7 @@ export default function ChatInterface({
             onQuickAction={handleQuickAction}
           />
           
-          {/* Enhanced Disclaimer */}
+          {/* Enhanced Disclaimer 
           <div className="text-center mt-3">
             <p className="text-xs text-gray-600 flex items-center justify-center gap-2 bg-amber-50/80 py-2 px-4 rounded-full border border-amber-200">
               <AlertCircle className="h-3 w-3 text-amber-600 flex-shrink-0" />
@@ -359,6 +359,7 @@ export default function ChatInterface({
               </span>
             </p>
           </div>
+          */}
         </div>
       </div>
     </div>
