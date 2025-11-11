@@ -2,6 +2,7 @@
 type VertexAI = any;
 type Content = any;
 type Firestore = any;
+import { config } from '../config';
 export interface RAGQueryResult {
   answer: string;
   citations: Array<{
@@ -190,16 +191,16 @@ export class RAGQueryService {
 
     const vertexAI = this.getVertexAI();
     const model = vertexAI.getGenerativeModel({
-      model: 'gemini-2.0-flash-001',
+      model: config.gemini.modelName,
       systemInstruction: {
         role: 'system',
         parts: [{ text: systemPrompt }]
       },
       generationConfig: {
-        maxOutputTokens: 2000,
-        temperature: 0.7,
-        topP: 0.8,
-        topK: 40
+        maxOutputTokens: config.gemini.maxTokens,
+        temperature: config.gemini.temperature,
+        topP: config.gemini.topP,
+        topK: config.gemini.topK
       }
     });
 

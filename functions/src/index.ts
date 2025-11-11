@@ -7,41 +7,40 @@ import { appRouter } from './router';
 import { createContext } from './context';
 
 // --- START LAZY INITIALIZATION FIX ---
-
-// Flag to track if services have been initialized for this function instance
 let servicesInitialized = false;
 
-/**
- * Ensures that Firebase Admin and other external services are initialized.
- * This function will only run once per cold-start to prevent deployment timeouts.
- */
 const ensureInitialized = () => {
   if (!servicesInitialized) {
     console.log('--- Lazy Initializing Services (Cold Start) ---');
-    // Calling the slow initialization logic now, but only on first request.
     initializeServices();
     servicesInitialized = true;
     console.log('--- Services Initialized Successfully ---');
   }
 };
-
 // --- END LAZY INITIALIZATION FIX ---
 
-// Create Express app at module load time (This is fast and non-blocking)
 console.log('Creating Express app...');
 const app = express();
 
 // Enable CORS for all origins
+// Your config is perfect.
 app.use(cors({
   origin: '*',
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+  credentials: false,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'HEAD'],
+  allowedHeaders: '*',
+  exposedHeaders: '*',
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
 }));
+
+// ✅ --- THE FIX ---
+// This line parses incoming JSON request bodies.
+// It MUST come before the tRPC middleware, otherwise req.body will be undefined.
+app.use(express.json());
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-  // We call initialization here to ensure services are ready, even for health checks
   ensureInitialized(); 
   res.status(200).json({
     status: 'ok',
@@ -84,5 +83,5 @@ const httpsOptions: HttpsOptions = {
   maxInstances: 10,
 };
 
-// Export the function - this is what gets deployed
+// Export the function
 export const api = onRequest(httpsOptions, app);

@@ -4,7 +4,7 @@ const path = require('path');
 
 // Configuration for port ranges
 const PORT_RANGES = {
-  ui: { start: 6000, end: 7000 },
+  ui: { start: 6001, end: 7000 },
   functions: { start: 5000, end: 5999 },
   hub: { start: 6400, end: 6499 },
   logging: { start: 6500, end: 6599 },

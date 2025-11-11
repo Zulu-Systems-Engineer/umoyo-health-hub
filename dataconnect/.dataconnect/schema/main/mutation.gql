@@ -1,0 +1,562 @@
+extend type Mutation {
+  """
+  ✨ Insert a single `Activity` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  activity_insert(
+    """
+    Data object to insert into the table.
+    """
+    data: Activity_Data!
+  ): Activity_KeyOutput! @fdc_generated(from: "Activity", purpose: INSERT_SINGLE)
+  """
+  ✨ Insert a single `FoodLog` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  foodLog_insert(
+    """
+    Data object to insert into the table.
+    """
+    data: FoodLog_Data!
+  ): FoodLog_KeyOutput! @fdc_generated(from: "FoodLog", purpose: INSERT_SINGLE)
+  """
+  ✨ Insert a single `Goal` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  goal_insert(
+    """
+    Data object to insert into the table.
+    """
+    data: Goal_Data!
+  ): Goal_KeyOutput! @fdc_generated(from: "Goal", purpose: INSERT_SINGLE)
+  """
+  ✨ Insert a single `MetricEntry` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  metricEntry_insert(
+    """
+    Data object to insert into the table.
+    """
+    data: MetricEntry_Data!
+  ): MetricEntry_KeyOutput! @fdc_generated(from: "MetricEntry", purpose: INSERT_SINGLE)
+  """
+  ✨ Insert a single `User` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  user_insert(
+    """
+    Data object to insert into the table.
+    """
+    data: User_Data!
+  ): User_KeyOutput! @fdc_generated(from: "User", purpose: INSERT_SINGLE)
+  """
+  ✨ Insert `Activity` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  activity_insertMany(
+    """
+    List of data objects to insert into the table.
+    """
+    data: [Activity_Data!]!
+  ): [Activity_KeyOutput!]! @fdc_generated(from: "Activity", purpose: INSERT_MULTIPLE)
+  """
+  ✨ Insert `FoodLog` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  foodLog_insertMany(
+    """
+    List of data objects to insert into the table.
+    """
+    data: [FoodLog_Data!]!
+  ): [FoodLog_KeyOutput!]! @fdc_generated(from: "FoodLog", purpose: INSERT_MULTIPLE)
+  """
+  ✨ Insert `Goal` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  goal_insertMany(
+    """
+    List of data objects to insert into the table.
+    """
+    data: [Goal_Data!]!
+  ): [Goal_KeyOutput!]! @fdc_generated(from: "Goal", purpose: INSERT_MULTIPLE)
+  """
+  ✨ Insert `MetricEntry` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  metricEntry_insertMany(
+    """
+    List of data objects to insert into the table.
+    """
+    data: [MetricEntry_Data!]!
+  ): [MetricEntry_KeyOutput!]! @fdc_generated(from: "MetricEntry", purpose: INSERT_MULTIPLE)
+  """
+  ✨ Insert `User` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  user_insertMany(
+    """
+    List of data objects to insert into the table.
+    """
+    data: [User_Data!]!
+  ): [User_KeyOutput!]! @fdc_generated(from: "User", purpose: INSERT_MULTIPLE)
+  """
+  ✨ Insert or update a single `Activity` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Activity`.
+  """
+  activity_upsert(
+    """
+    Data object to insert or update if it already exists.
+    """
+    data: Activity_Data!
+  ): Activity_KeyOutput! @fdc_generated(from: "Activity", purpose: UPSERT_SINGLE)
+  """
+  ✨ Insert or update a single `FoodLog` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `FoodLog`.
+  """
+  foodLog_upsert(
+    """
+    Data object to insert or update if it already exists.
+    """
+    data: FoodLog_Data!
+  ): FoodLog_KeyOutput! @fdc_generated(from: "FoodLog", purpose: UPSERT_SINGLE)
+  """
+  ✨ Insert or update a single `Goal` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Goal`.
+  """
+  goal_upsert(
+    """
+    Data object to insert or update if it already exists.
+    """
+    data: Goal_Data!
+  ): Goal_KeyOutput! @fdc_generated(from: "Goal", purpose: UPSERT_SINGLE)
+  """
+  ✨ Insert or update a single `MetricEntry` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `MetricEntry`.
+  """
+  metricEntry_upsert(
+    """
+    Data object to insert or update if it already exists.
+    """
+    data: MetricEntry_Data!
+  ): MetricEntry_KeyOutput! @fdc_generated(from: "MetricEntry", purpose: UPSERT_SINGLE)
+  """
+  ✨ Insert or update a single `User` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `User`.
+  """
+  user_upsert(
+    """
+    Data object to insert or update if it already exists.
+    """
+    data: User_Data!
+  ): User_KeyOutput! @fdc_generated(from: "User", purpose: UPSERT_SINGLE)
+  """
+  ✨ Insert or update `Activity` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Activity`.
+  """
+  activity_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [Activity_Data!]!
+  ): [Activity_KeyOutput!]! @fdc_generated(from: "Activity", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Insert or update `FoodLog` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `FoodLog`.
+  """
+  foodLog_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [FoodLog_Data!]!
+  ): [FoodLog_KeyOutput!]! @fdc_generated(from: "FoodLog", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Insert or update `Goal` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Goal`.
+  """
+  goal_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [Goal_Data!]!
+  ): [Goal_KeyOutput!]! @fdc_generated(from: "Goal", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Insert or update `MetricEntry` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `MetricEntry`.
+  """
+  metricEntry_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [MetricEntry_Data!]!
+  ): [MetricEntry_KeyOutput!]! @fdc_generated(from: "MetricEntry", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Insert or update `User` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `User`.
+  """
+  user_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [User_Data!]!
+  ): [User_KeyOutput!]! @fdc_generated(from: "User", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Update a single `Activity` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `Activity` or `null` if not found.
+  """
+  activity_update(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Activity_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Activity_FirstRow
+
+    """
+    Data object containing fields to be updated.
+    """
+    data: Activity_Data!
+  ): Activity_KeyOutput @fdc_generated(from: "Activity", purpose: UPDATE_SINGLE)
+  """
+  ✨ Update a single `FoodLog` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `FoodLog` or `null` if not found.
+  """
+  foodLog_update(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: FoodLog_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: FoodLog_FirstRow
+
+    """
+    Data object containing fields to be updated.
+    """
+    data: FoodLog_Data!
+  ): FoodLog_KeyOutput @fdc_generated(from: "FoodLog", purpose: UPDATE_SINGLE)
+  """
+  ✨ Update a single `Goal` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `Goal` or `null` if not found.
+  """
+  goal_update(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Goal_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Goal_FirstRow
+
+    """
+    Data object containing fields to be updated.
+    """
+    data: Goal_Data!
+  ): Goal_KeyOutput @fdc_generated(from: "Goal", purpose: UPDATE_SINGLE)
+  """
+  ✨ Update a single `MetricEntry` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `MetricEntry` or `null` if not found.
+  """
+  metricEntry_update(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: MetricEntry_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: MetricEntry_FirstRow
+
+    """
+    Data object containing fields to be updated.
+    """
+    data: MetricEntry_Data!
+  ): MetricEntry_KeyOutput @fdc_generated(from: "MetricEntry", purpose: UPDATE_SINGLE)
+  """
+  ✨ Update a single `User` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `User` or `null` if not found.
+  """
+  user_update(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: User_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: User_FirstRow
+
+    """
+    Data object containing fields to be updated.
+    """
+    data: User_Data!
+  ): User_KeyOutput @fdc_generated(from: "User", purpose: UPDATE_SINGLE)
+  """
+  ✨ Update `Activity` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  activity_updateMany(
+    """
+    Filter condition to specify which rows to update.
+    """
+    where: Activity_Filter
+
+    """
+    Set to true to update all rows.
+    """
+    all: Boolean = false
+
+    """
+    Data object containing fields to update.
+    """
+    data: Activity_Data!
+  ): Int! @fdc_generated(from: "Activity", purpose: UPDATE_MULTIPLE)
+  """
+  ✨ Update `FoodLog` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  foodLog_updateMany(
+    """
+    Filter condition to specify which rows to update.
+    """
+    where: FoodLog_Filter
+
+    """
+    Set to true to update all rows.
+    """
+    all: Boolean = false
+
+    """
+    Data object containing fields to update.
+    """
+    data: FoodLog_Data!
+  ): Int! @fdc_generated(from: "FoodLog", purpose: UPDATE_MULTIPLE)
+  """
+  ✨ Update `Goal` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  goal_updateMany(
+    """
+    Filter condition to specify which rows to update.
+    """
+    where: Goal_Filter
+
+    """
+    Set to true to update all rows.
+    """
+    all: Boolean = false
+
+    """
+    Data object containing fields to update.
+    """
+    data: Goal_Data!
+  ): Int! @fdc_generated(from: "Goal", purpose: UPDATE_MULTIPLE)
+  """
+  ✨ Update `MetricEntry` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  metricEntry_updateMany(
+    """
+    Filter condition to specify which rows to update.
+    """
+    where: MetricEntry_Filter
+
+    """
+    Set to true to update all rows.
+    """
+    all: Boolean = false
+
+    """
+    Data object containing fields to update.
+    """
+    data: MetricEntry_Data!
+  ): Int! @fdc_generated(from: "MetricEntry", purpose: UPDATE_MULTIPLE)
+  """
+  ✨ Update `User` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  user_updateMany(
+    """
+    Filter condition to specify which rows to update.
+    """
+    where: User_Filter
+
+    """
+    Set to true to update all rows.
+    """
+    all: Boolean = false
+
+    """
+    Data object containing fields to update.
+    """
+    data: User_Data!
+  ): Int! @fdc_generated(from: "User", purpose: UPDATE_MULTIPLE)
+  """
+  ✨ Delete a single `Activity` based on `id`, `key` or `first` and return its key (or `null` if not found).
+  """
+  activity_delete(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Activity_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Activity_FirstRow
+  ): Activity_KeyOutput @fdc_generated(from: "Activity", purpose: DELETE_SINGLE)
+  """
+  ✨ Delete a single `FoodLog` based on `id`, `key` or `first` and return its key (or `null` if not found).
+  """
+  foodLog_delete(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: FoodLog_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: FoodLog_FirstRow
+  ): FoodLog_KeyOutput @fdc_generated(from: "FoodLog", purpose: DELETE_SINGLE)
+  """
+  ✨ Delete a single `Goal` based on `id`, `key` or `first` and return its key (or `null` if not found).
+  """
+  goal_delete(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Goal_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Goal_FirstRow
+  ): Goal_KeyOutput @fdc_generated(from: "Goal", purpose: DELETE_SINGLE)
+  """
+  ✨ Delete a single `MetricEntry` based on `id`, `key` or `first` and return its key (or `null` if not found).
+  """
+  metricEntry_delete(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: MetricEntry_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: MetricEntry_FirstRow
+  ): MetricEntry_KeyOutput @fdc_generated(from: "MetricEntry", purpose: DELETE_SINGLE)
+  """
+  ✨ Delete a single `User` based on `id`, `key` or `first` and return its key (or `null` if not found).
+  """
+  user_delete(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: User_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: User_FirstRow
+  ): User_KeyOutput @fdc_generated(from: "User", purpose: DELETE_SINGLE)
+  """
+  ✨ Delete `Activity` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  activity_deleteMany(
+    """
+    Filter condition to specify which rows to delete.
+    """
+    where: Activity_Filter
+
+    """
+    Set to true to delete all rows.
+    """
+    all: Boolean = false
+  ): Int! @fdc_generated(from: "Activity", purpose: DELETE_MULTIPLE)
+  """
+  ✨ Delete `FoodLog` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  foodLog_deleteMany(
+    """
+    Filter condition to specify which rows to delete.
+    """
+    where: FoodLog_Filter
+
+    """
+    Set to true to delete all rows.
+    """
+    all: Boolean = false
+  ): Int! @fdc_generated(from: "FoodLog", purpose: DELETE_MULTIPLE)
+  """
+  ✨ Delete `Goal` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  goal_deleteMany(
+    """
+    Filter condition to specify which rows to delete.
+    """
+    where: Goal_Filter
+
+    """
+    Set to true to delete all rows.
+    """
+    all: Boolean = false
+  ): Int! @fdc_generated(from: "Goal", purpose: DELETE_MULTIPLE)
+  """
+  ✨ Delete `MetricEntry` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  metricEntry_deleteMany(
+    """
+    Filter condition to specify which rows to delete.
+    """
+    where: MetricEntry_Filter
+
+    """
+    Set to true to delete all rows.
+    """
+    all: Boolean = false
+  ): Int! @fdc_generated(from: "MetricEntry", purpose: DELETE_MULTIPLE)
+  """
+  ✨ Delete `User` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  user_deleteMany(
+    """
+    Filter condition to specify which rows to delete.
+    """
+    where: User_Filter
+
+    """
+    Set to true to delete all rows.
+    """
+    all: Boolean = false
+  ): Int! @fdc_generated(from: "User", purpose: DELETE_MULTIPLE)
+}
