@@ -3,13 +3,42 @@
  * Handles chat/RAG query endpoints
  */
 
-import { router, publicProcedure } from '../router';
-import { chatQuerySchema, type ChatResponse } from '@umoyo/shared';
+import { router, publicProcedure } from '../trpc';
+import { z } from 'zod';
+import type { DocumentSource } from '../services/rag.service';
+import { getFirestore } from 'firebase-admin/firestore';
+
+// Type definitions
+export interface ChatResponse {
+  message: {
+    id: string;
+    role: 'assistant';
+    content: string;
+    timestamp: Date;
+    sources?: DocumentSource[];
+  };
+  sources: DocumentSource[];
+  sessionId: string;
+}
+
+// Schema definitions
+export const chatQuerySchema = z.object({
+  message: z.string(),
+  sessionId: z.string().optional(),
+  context: z.object({
+    category: z.string().optional(),
+    language: z.string().optional(),
+    audience: z.string().optional(),
+    region: z.string().optional(),
+  }).optional(),
+});
+
+// Import services - they use lazy initialization internally
 import { ragService } from '../services/rag.service';
 import { geminiService } from '../services/gemini.service';
 import type { SearchContext } from '../services/rag.service';
 
-export const chatRouter: ReturnType<typeof router> = router({
+export const chatRouter = router({
   /**
    * Query endpoint - Main RAG-powered chat query
    */
@@ -57,17 +86,62 @@ export const chatRouter: ReturnType<typeof router> = router({
         // 3. Generate response using Gemini with context
         const responseText = await geminiService.generateResponse(message, sources);
 
-        // 4. Return response with sources
+        const finalSessionId = sessionId || `session-${Date.now()}`;
+        const assistantMessage = {
+          id: `msg-${Date.now()}`,
+          role: 'assistant' as const,
+          content: responseText,
+          timestamp: new Date(),
+          sources: sources.slice(0, 3), // Include top 3 sources in message
+        };
+
+         // 4. Save messages to conversation history (async, don't wait)
+         const db = getFirestore();
+         const userId = null; // No authentication - userId is always null
+         Promise.all([
+           // Save user message
+           db
+             .collection('conversations')
+             .doc(finalSessionId)
+             .collection('messages')
+             .doc(`user-${Date.now()}`)
+             .set({
+               id: `user-${Date.now()}`,
+               role: 'user',
+               content: message,
+               timestamp: new Date().toISOString(),
+             }),
+           // Save assistant message
+           db
+             .collection('conversations')
+             .doc(finalSessionId)
+             .collection('messages')
+             .doc(assistantMessage.id)
+             .set({
+               ...assistantMessage,
+               timestamp: assistantMessage.timestamp.toISOString(),
+             }),
+           // Update conversation metadata
+           db
+             .collection('conversations')
+             .doc(finalSessionId)
+             .set({
+               lastMessageAt: new Date().toISOString(),
+               userId: userId || null, // Link to user if authenticated
+               createdAt: (await db.collection('conversations').doc(finalSessionId).get()).exists 
+                 ? undefined 
+                 : new Date().toISOString(),
+             }, { merge: true }),
+         ]).catch(err => {
+           console.error('[Chat Router] Error saving conversation history:', err);
+           // Don't throw - history saving is non-critical
+         });
+
+        // 5. Return response with sources
         return {
-          message: {
-            id: `msg-${Date.now()}`,
-            role: 'assistant',
-            content: responseText,
-            timestamp: new Date(),
-            sources: sources.slice(0, 3), // Include top 3 sources in message
-          },
+          message: assistantMessage,
           sources: sources,
-          sessionId: sessionId || `session-${Date.now()}`,
+          sessionId: finalSessionId,
         };
       } catch (error: any) {
         console.error('[Chat Router] Error processing query:', error);
@@ -84,6 +158,126 @@ export const chatRouter: ReturnType<typeof router> = router({
           sources: [],
           sessionId: sessionId || `session-${Date.now()}`,
         };
+      }
+    }),
+
+  /**
+   * Save conversation message to history
+   */
+  saveMessage: publicProcedure
+    .input(z.object({
+      sessionId: z.string(),
+      message: z.object({
+        id: z.string(),
+        role: z.enum(['user', 'assistant', 'system']),
+        content: z.string(),
+        timestamp: z.date(),
+        sources: z.array(z.any()).optional(),
+      }),
+    }))
+    .mutation(async ({ input }) => {
+      try {
+        const db = getFirestore();
+        const { sessionId, message } = input;
+
+        // Save message to conversation
+        await db
+          .collection('conversations')
+          .doc(sessionId)
+          .collection('messages')
+          .doc(message.id)
+          .set({
+            ...message,
+            timestamp: message.timestamp.toISOString(),
+          });
+
+        // Update conversation metadata
+        const messagesCount = await db
+          .collection('conversations')
+          .doc(sessionId)
+          .collection('messages')
+          .count()
+          .get();
+
+        await db
+          .collection('conversations')
+          .doc(sessionId)
+          .set({
+            lastMessageAt: new Date().toISOString(),
+            messageCount: messagesCount.data().count || 0,
+          }, { merge: true });
+
+        return { success: true };
+      } catch (error: any) {
+        console.error('[Chat Router] Error saving message:', error);
+        throw new Error(`Failed to save message: ${error.message}`);
+      }
+    }),
+
+  /**
+   * Get conversation history
+   */
+  getHistory: publicProcedure
+    .input(z.object({
+      sessionId: z.string(),
+      limit: z.number().optional().default(50),
+    }))
+    .query(async ({ input }) => {
+      try {
+        const db = getFirestore();
+        const { sessionId, limit } = input;
+
+        const messagesSnapshot = await db
+          .collection('conversations')
+          .doc(sessionId)
+          .collection('messages')
+          .orderBy('timestamp', 'desc')
+          .limit(limit)
+          .get();
+
+        const messages = messagesSnapshot.docs.map(doc => {
+          const data = doc.data();
+          return {
+            ...data,
+            timestamp: data.timestamp ? new Date(data.timestamp) : new Date(),
+          };
+        }).reverse(); // Reverse to get chronological order
+
+        return { messages };
+      } catch (error: any) {
+        console.error('[Chat Router] Error getting history:', error);
+        return { messages: [] };
+      }
+    }),
+
+  /**
+   * Get conversation sessions (no auth required)
+   */
+  getSessions: publicProcedure
+    .input(z.object({
+      limit: z.number().optional().default(10),
+    }))
+    .query(async ({ input }) => {
+      try {
+        const db = getFirestore();
+        const { limit } = input;
+
+        // Get all conversations ordered by last message time
+        const sessionsSnapshot = await db
+          .collection('conversations')
+          .orderBy('lastMessageAt', 'desc')
+          .limit(limit)
+          .get();
+
+        const sessions = sessionsSnapshot.docs.map(doc => ({
+          sessionId: doc.id,
+          ...doc.data(),
+        }));
+
+        return { sessions };
+      } catch (error: any) {
+        console.error('[Chat Router] Error getting sessions:', error);
+        return { sessions: [] };
       }
     }),
 

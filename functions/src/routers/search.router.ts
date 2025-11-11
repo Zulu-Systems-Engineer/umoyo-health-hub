@@ -3,12 +3,24 @@
  * Handles document search functionality
  */
 
-import { router, publicProcedure } from '../router';
-import { searchParamsSchema } from '@umoyo/shared';
+import { router, publicProcedure } from '../trpc';
+import { z } from 'zod';
+
+export const searchParamsSchema = z.object({
+  query: z.string(),
+  category: z.string().optional(),
+  language: z.string().optional(),
+  audience: z.string().optional(),
+  region: z.string().optional(),
+  limit: z.number().optional(),
+  offset: z.number().optional(),
+});
+
+// Import service - it uses lazy initialization internally
 import { ragService } from '../services/rag.service';
 import type { SearchContext, SearchOptions } from '../services/rag.service';
 
-export const searchRouter: ReturnType<typeof router> = router({
+export const searchRouter = router({
   /**
    * Search documents in the RAG corpus
    */

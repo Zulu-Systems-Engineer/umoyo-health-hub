@@ -3,8 +3,9 @@
  * Uses Google's managed RAG system for general medical knowledge
  */
 
-import { VertexAI } from '@google-cloud/vertexai';
-import { GoogleAuth } from 'google-auth-library';
+// Lazy imports - these will be loaded at runtime, not during deployment analysis
+type VertexAI = any;
+type GoogleAuth = any;
 
 interface VertexRAGSource {
   title: string;
@@ -19,11 +20,11 @@ interface VertexRAGResult {
 }
 
 export class VertexRAGService {
-  private vertexAI: VertexAI;
+  private vertexAI: VertexAI | null = null;
   private projectId: string;
   private location: string;
   private ragCorpusId?: string;
-  private auth: GoogleAuth;
+  private auth: GoogleAuth | null = null;
 
   constructor(
     projectId: string = process.env.GCP_PROJECT_ID || 'umoyo-health-hub',
@@ -31,13 +32,35 @@ export class VertexRAGService {
   ) {
     this.projectId = projectId;
     this.location = location;
-    this.vertexAI = new VertexAI({ 
-      project: projectId, 
-      location: location 
-    });
-    this.auth = new GoogleAuth({
-      scopes: ['https://www.googleapis.com/auth/cloud-platform'],
-    });
+    // Don't initialize VertexAI and GoogleAuth in constructor
+    // to avoid blocking during Firebase deployment
+  }
+
+  /**
+   * Lazily initialize VertexAI client only when needed
+   */
+  private getVertexAI(): any {
+    if (!this.vertexAI) {
+      const { VertexAI } = require('@google-cloud/vertexai');
+      this.vertexAI = new VertexAI({ 
+        project: this.projectId, 
+        location: this.location 
+      });
+    }
+    return this.vertexAI;
+  }
+
+  /**
+   * Lazily initialize GoogleAuth client only when needed
+   */
+  private getAuth(): any {
+    if (!this.auth) {
+      const { GoogleAuth } = require('google-auth-library');
+      this.auth = new GoogleAuth({
+        scopes: ['https://www.googleapis.com/auth/cloud-platform'],
+      });
+    }
+    return this.auth;
   }
 
   /**
@@ -55,6 +78,7 @@ export class VertexRAGService {
     description: string = 'General medical knowledge base for Umoyo Health Hub'
   ): Promise<string> {
     try {
+      // Initialize auth lazily before getting token
       const accessToken = await this.getAccessToken();
       const url = `https://${this.location}-aiplatform.googleapis.com/v1/projects/${this.projectId}/locations/${this.location}/ragCorpora`;
 
@@ -145,7 +169,9 @@ export class VertexRAGService {
     }
 
     try {
-      const model = this.vertexAI.preview.getGenerativeModel({
+      // Lazily initialize VertexAI
+      const vertexAI = this.getVertexAI();
+      const model = vertexAI.preview.getGenerativeModel({
         model: 'gemini-1.5-pro',
       });
 
@@ -268,7 +294,9 @@ export class VertexRAGService {
    * Get access token for API calls
    */
   private async getAccessToken(): Promise<string> {
-    const client = await this.auth.getClient();
+    // Lazily initialize auth
+    const auth = this.getAuth();
+    const client = await auth.getClient();
     const tokenResponse = await client.getAccessToken();
     
     if (!tokenResponse.token) {

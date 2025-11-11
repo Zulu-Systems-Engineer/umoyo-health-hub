@@ -3,10 +3,12 @@
  * Combines results from Vertex AI RAG and Custom RAG systems
  */
 
-import { VertexRAGService } from './vertex-rag.service';
-import { RAGQueryService } from './rag-query.service';
 import { QueryRouterService, RAGStrategy } from './query-router.service';
-import { Content } from '@google-cloud/vertexai';
+
+// Lazy import types only - actual imports happen at runtime
+type Content = any; // Will be properly typed when VertexAI is imported at runtime
+type VertexRAGService = any;
+type RAGQueryService = any;
 
 interface HybridRAGResult {
   answer: string;
@@ -24,19 +26,39 @@ interface HybridRAGResult {
 }
 
 export class HybridRAGService {
-  private vertexRAG: VertexRAGService;
-  private customRAG: RAGQueryService;
-  private router: QueryRouterService;
+  private vertexRAG: VertexRAGService | null = null;
+  private customRAG: RAGQueryService | null = null;
+  private router: QueryRouterService | null = null;
 
   constructor() {
-    this.vertexRAG = new VertexRAGService();
-    this.customRAG = new RAGQueryService();
-    this.router = new QueryRouterService();
+    // Don't initialize services in constructor to avoid blocking during deployment
+    // They will be lazily initialized on first use
+  }
+
+  /**
+   * Lazily initialize all RAG services only when needed
+   */
+  private initializeServices(): void {
+    if (!this.vertexRAG) {
+      // Lazy-load the service module at runtime
+      const { VertexRAGService } = require('./vertex-rag.service');
+      this.vertexRAG = new VertexRAGService();
+      
+      // Set the Vertex RAG corpus ID from environment
+      const corpusId = process.env.VERTEX_RAG_CORPUS_ID;
+      if (corpusId) {
+        this.vertexRAG.setCorpusId(corpusId);
+      }
+    }
     
-    // Set the Vertex RAG corpus ID from environment
-    const corpusId = process.env.VERTEX_RAG_CORPUS_ID;
-    if (corpusId) {
-      this.vertexRAG.setCorpusId(corpusId);
+    if (!this.customRAG) {
+      // Lazy-load the service module at runtime
+      const { RAGQueryService } = require('./rag-query.service');
+      this.customRAG = new RAGQueryService();
+    }
+    
+    if (!this.router) {
+      this.router = new QueryRouterService();
     }
   }
 
@@ -48,13 +70,16 @@ export class HybridRAGService {
     userRole: 'patient' | 'healthcare-professional',
     conversationHistory?: Content[]
   ): Promise<HybridRAGResult> {
+    // Initialize services lazily on first use
+    this.initializeServices();
+    
     const startTime = Date.now();
 
     // Step 1: Analyze query and determine strategy
-    let analysis = this.router.analyzeQuery(userQuery);
+    let analysis = this.router!.analyzeQuery(userQuery);
     
     // Adjust strategy based on user role
-    analysis = this.router.adjustStrategyForRole(analysis, userRole);
+    analysis = this.router!.adjustStrategyForRole(analysis, userRole);
 
     console.log(`[Hybrid RAG] Strategy: ${analysis.strategy} (confidence: ${analysis.confidence})`);
     console.log(`[Hybrid RAG] Reasoning: ${analysis.reasoning}`);
@@ -88,7 +113,7 @@ export class HybridRAGService {
    * Query using Vertex RAG only
    */
   private async queryVertex(query: string, startTime: number): Promise<HybridRAGResult> {
-    const vertexResult = await this.vertexRAG.query(query, 5);
+    const vertexResult = await this.vertexRAG!.query(query, 5);
 
     return {
       answer: vertexResult.answer,
@@ -113,7 +138,7 @@ export class HybridRAGService {
     conversationHistory: Content[] | undefined,
     startTime: number
   ): Promise<HybridRAGResult> {
-    const customResult = await this.customRAG.query(query, userRole, conversationHistory);
+    const customResult = await this.customRAG!.query(query, userRole, conversationHistory);
 
     return {
       answer: customResult.answer,
@@ -140,8 +165,8 @@ export class HybridRAGService {
   ): Promise<HybridRAGResult> {
     // Execute both queries in parallel
     const [vertexResult, customResult] = await Promise.allSettled([
-      this.vertexRAG.query(query, 3),
-      this.customRAG.query(query, userRole, conversationHistory),
+      this.vertexRAG!.query(query, 3),
+      this.customRAG!.query(query, userRole, conversationHistory),
     ]);
 
     // Handle results
@@ -269,9 +294,12 @@ export class HybridRAGService {
     vertex: { available: boolean; corpusReady: boolean };
     custom: { available: boolean };
   }> {
+    // Initialize services lazily if needed
+    this.initializeServices();
+    
     const [vertexStatus, customStatus] = await Promise.allSettled([
-      this.vertexRAG.checkCorpusStatus(),
-      this.customRAG.query('health check', 'patient'),
+      this.vertexRAG!.checkCorpusStatus(),
+      this.customRAG!.query('health check', 'patient'),
     ]);
 
     return {

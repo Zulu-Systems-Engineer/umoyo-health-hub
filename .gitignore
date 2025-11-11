@@ -1,62 +1,65 @@
-# Dependencies
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
 node_modules/
 .pnp
 .pnp.js
 
-# Testing
+# testing
 coverage/
-*.lcov
 
-# Production builds
-dist/
+# production
 build/
-.next/
-out/
+dist/
+lib/
 
-# Environment variables
+# misc
+.DS_Store
+*.pem
 .env
 .env.local
-.env.*.local
-.firebaserc.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+pnpm-debug.log*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
 
 # Firebase
 .firebase/
 firebase-debug.log
-firestore-debug.log
-ui-debug.log
+firebase-debug.*.log
+.runtimeconfig.json
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.DS_Store
-
-# Logs
-logs/
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-# Turbo
-.turbo/
+# Emulator dynamic files (auto-generated)
+.emulator-ports.json
 
 # TypeScript
 *.tsbuildinfo
 
-# OS
-Thumbs.db
+# turbo
+.turbo/
 
-# Service Account Keys
-.keys/
-.service-accounts-config.json
-.rag-system-config.json
-.env.gcp
-*.json
-!package.json
-!tsconfig.json
-!pnpm-lock.yaml
+# Functions
+functions/lib/
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

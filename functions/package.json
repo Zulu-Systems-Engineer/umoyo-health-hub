@@ -1,37 +1,45 @@
 {
-  "name": "@umoyo/functions",
-  "version": "0.1.0",
-  "engines": {
-
-    "node": "22"
-  },
-  "main": "lib/index.js",
+  "name": "functions",
   "scripts": {
+    "lint": "eslint --ext .js,.ts .",
     "build": "tsc",
+    "build:watch": "tsc --watch",
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log"
   },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
   "dependencies": {
-    "@google-cloud/aiplatform": "^3.35.0",
-    "@google-cloud/firestore": "^8.0.0",
+    "@google-cloud/aiplatform": "^5.12.0",
+    "@google-cloud/firestore": "^7.11.0",
     "@google-cloud/vertexai": "^1.10.0",
-    "@trpc/server": "^11.7.1",
-    "@umoyo/shared": "workspace:*",
+    "@trpc/server": "^10.45.2",
     "cors": "^2.8.5",
-    "express": "^4.21.2",
-    "firebase-admin": "^12.7.0",
-    "firebase-functions": "^5.1.1",
-    "google-auth-library": "^9.15.1",
+    "express": "^4.18.2",
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^6.0.1",
+    "google-auth-library": "^10.5.0",
     "zod": "^3.25.76"
+  },
+  "peerDependencies": {
+    "@types/node": "^22.0.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
-    "@types/express": "^4.17.25",
-    "@types/node": "^20.19.24",
-    "rimraf": "^6.1.0",
-    "typescript": "^5.9.3"
-  }
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^5.7.3"
+  },
+  "private": true
 }

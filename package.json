@@ -9,7 +9,15 @@
     "lint": "turbo run lint",
     "test": "turbo run test",
     "clean": "turbo run clean",
-    "format": "prettier --write \"**/*.{ts,tsx,md,json}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "emulators:configure": "node scripts/configure-emulators.js",
+    "emulators:sync": "node scripts/sync-emulator-ports.js",
+    "emulators:sync:watch": "node scripts/sync-emulator-ports.js --watch",
+    "emulators:sync:wait": "node scripts/sync-emulator-ports.js --wait",
+    "emulators:discovery": "node scripts/port-discovery-service.js",
+    "emulators:start": "node scripts/start-emulators-with-sync.js",
+    "emulators:start:functions": "node scripts/start-emulators-with-sync.js --functions-only",
+    "emulators:test": "node scripts/test-port-discovery.js"
   },
   "devDependencies": {
     "prettier": "^3.2.5",

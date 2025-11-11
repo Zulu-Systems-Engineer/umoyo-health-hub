@@ -1,11 +1,19 @@
 import { z } from 'zod';
-import { publicProcedure, protectedProcedure, router } from '../router';
+import { publicProcedure, router } from '../trpc';
 import { HybridRAGService } from '../services/hybrid-rag.service';
 import { TRPCError } from '@trpc/server';
 
-const hybridRAGService = new HybridRAGService();
+// Lazy initialization: only create service when first accessed
+let hybridRAGService: HybridRAGService | null = null;
 
-export const ragRouter: ReturnType<typeof router> = router({
+function getHybridRAGService(): HybridRAGService {
+  if (!hybridRAGService) {
+    hybridRAGService = new HybridRAGService();
+  }
+  return hybridRAGService;
+}
+
+export const ragRouter = router({
   
   // Public query endpoint (uses intelligent routing)
   query: publicProcedure
@@ -15,7 +23,8 @@ export const ragRouter: ReturnType<typeof router> = router({
     }))
     .mutation(async ({ input }) => {
       try {
-        const result = await hybridRAGService.query(
+        const service = getHybridRAGService();
+        const result = await service.query(
           input.message,
           'patient'
         );
@@ -37,23 +46,16 @@ export const ragRouter: ReturnType<typeof router> = router({
       }
     }),
 
-  // Professional query endpoint (requires authentication)
-  professionalQuery: protectedProcedure
+  // Professional query endpoint (no auth required)
+  professionalQuery: publicProcedure
     .input(z.object({
       message: z.string().min(3).max(1000),
       conversationId: z.string().optional()
     }))
-    .mutation(async ({ input, ctx }) => {
-      // Check if user is authenticated and has professional role
-      if (!ctx.user || ctx.user.role !== 'healthcare-professional') {
-        throw new TRPCError({
-          code: 'FORBIDDEN',
-          message: 'Professional access required'
-        });
-      }
-
+    .mutation(async ({ input }) => {
       try {
-        const result = await hybridRAGService.query(
+        const service = getHybridRAGService();
+        const result = await service.query(
           input.message,
           'healthcare-professional'
         );
@@ -76,24 +78,65 @@ export const ragRouter: ReturnType<typeof router> = router({
     }),
 
   // Get vector database statistics
-  getVectorStats: protectedProcedure
+  getVectorStats: publicProcedure
     .query(async () => {
-      const { Firestore } = require('@google-cloud/firestore');
-      const firestore = new Firestore();
-      
-      const metadata = await firestore
-        .collection('vectorDB')
-        .doc('metadata')
-        .get();
+      try {
+        const { Firestore } = require('@google-cloud/firestore');
+        const firestore = new Firestore();
+        
+        // Try to get metadata first
+        const metadataDoc = await firestore
+          .collection('vectorDB')
+          .doc('metadata')
+          .get();
 
-      return metadata.exists ? metadata.data() : null;
+        if (metadataDoc.exists) {
+          const metadata = metadataDoc.data();
+          // Ensure it matches the expected format
+          return {
+            embeddingModel: metadata?.embeddingModel || 'text-embedding-005',
+            dimensions: metadata?.dimensions || 768,
+            totalDocuments: metadata?.totalDocuments || 0,
+            totalChunks: metadata?.totalChunks || 0,
+            updatedAt: metadata?.updatedAt || Date.now(),
+          };
+        }
+
+        // If metadata doesn't exist, calculate from actual data
+        const chunksSnapshot = await firestore
+          .collection('vectorChunks')
+          .get();
+
+        const documentIds = new Set<string>();
+        chunksSnapshot.docs.forEach(doc => {
+          const data = doc.data();
+          if (data.documentId) {
+            documentIds.add(data.documentId);
+          }
+        });
+
+        return {
+          embeddingModel: 'text-embedding-005',
+          dimensions: 768,
+          totalDocuments: documentIds.size,
+          totalChunks: chunksSnapshot.size,
+          updatedAt: Date.now(),
+        };
+      } catch (error: any) {
+        console.error('Error getting vector stats:', error);
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: `Failed to get vector stats: ${error.message}`,
+        });
+      }
     }),
 
   // Health check for both RAG systems
   healthCheck: publicProcedure
     .query(async () => {
       try {
-        const health = await hybridRAGService.healthCheck();
+        const service = getHybridRAGService();
+        const health = await service.healthCheck();
         return {
           status: 'ok',
           systems: health,

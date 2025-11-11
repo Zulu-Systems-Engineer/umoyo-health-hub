@@ -1,21 +1,65 @@
-import { VertexAI, Content } from '@google-cloud/vertexai';
-import { Firestore } from '@google-cloud/firestore';
-import { RAGQueryResult, VectorChunk } from '@umoyo/shared';
+// Lazy imports - these will be loaded at runtime, not during deployment analysis
+type VertexAI = any;
+type Content = any;
+type Firestore = any;
+import { config } from '../config';
+export interface RAGQueryResult {
+  answer: string;
+  citations: Array<{
+    chunkId: string;
+    source: string;
+    content: string;
+    pageNumber?: number;
+    similarity: number;
+  }>;
+  confidence: number;
+  processingTime: number;
+}
+
+export interface VectorChunk {
+  chunkId: string;
+  source: string;
+  content: string;
+  pageNumber?: number;
+  embedding: number[];
+}
 
 export class RAGQueryService {
-  private vertexAI: VertexAI;
-  private firestore: Firestore;
+  private vertexAI: VertexAI | null = null;
+  private firestore: Firestore | null = null;
   private projectId: string;
   private location: string;
 
   constructor() {
     this.projectId = process.env.GCP_PROJECT_ID || 'umoyo-health-hub';
     this.location = 'us-central1';
-    this.vertexAI = new VertexAI({
-      project: this.projectId,
-      location: this.location
-    });
-    this.firestore = new Firestore();
+    // Don't initialize VertexAI and Firestore in constructor
+    // to avoid blocking during Firebase deployment
+  }
+
+  /**
+   * Lazily initialize VertexAI client only when needed
+   */
+  private getVertexAI(): any {
+    if (!this.vertexAI) {
+      const { VertexAI } = require('@google-cloud/vertexai');
+      this.vertexAI = new VertexAI({
+        project: this.projectId,
+        location: this.location
+      });
+    }
+    return this.vertexAI;
+  }
+
+  /**
+   * Lazily initialize Firestore client only when needed
+   */
+  private getFirestore(): any {
+    if (!this.firestore) {
+      const { Firestore } = require('@google-cloud/firestore');
+      this.firestore = new Firestore();
+    }
+    return this.firestore;
   }
 
   /**
@@ -89,7 +133,8 @@ export class RAGQueryService {
     queryEmbedding: number[],
     topK: number
   ): Promise<Array<VectorChunk & { similarity: number }>> {
-    const snapshot = await this.firestore
+    const firestore = this.getFirestore();
+    const snapshot = await firestore
       .collection('vectorChunks')
       .get();
 
@@ -144,17 +189,18 @@ export class RAGQueryService {
       ? 'You are Umoyo Health Assistant, a helpful medical information service for patients in Zambia. Explain medical concepts in simple, clear language. Always emphasize when to consult healthcare professionals. Use the provided context to answer accurately.'
       : 'You are Umoyo Health Assistant, an evidence-based clinical decision support tool for healthcare professionals in Zambia. Provide accurate, clinically relevant information with proper citations. Use the provided context to give detailed, professional answers.';
 
-    const model = this.vertexAI.getGenerativeModel({
-      model: 'gemini-2.0-flash-001',
+    const vertexAI = this.getVertexAI();
+    const model = vertexAI.getGenerativeModel({
+      model: config.gemini.modelName,
       systemInstruction: {
         role: 'system',
         parts: [{ text: systemPrompt }]
       },
       generationConfig: {
-        maxOutputTokens: 2000,
-        temperature: 0.7,
-        topP: 0.8,
-        topK: 40
+        maxOutputTokens: config.gemini.maxTokens,
+        temperature: config.gemini.temperature,
+        topP: config.gemini.topP,
+        topK: config.gemini.topK
       }
     });
 

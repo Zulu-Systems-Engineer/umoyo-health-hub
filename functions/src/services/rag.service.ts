@@ -3,14 +3,15 @@
  * Handles retrieval of relevant documents from the RAG corpus
  */
 
-import { VertexAI } from '@google-cloud/vertexai';
-import { config } from '../config';
-import type { DocumentSource as DocumentSourceImport } from '@umoyo/shared';
 
-// Export DocumentSource as a type alias so TypeScript can properly name it in declaration files
-// This is necessary because exported variables (like searchRouter, chatRouter) use this type
-// through the RAG service's return types, and TypeScript needs to be able to reference the type name
-export type DocumentSource = DocumentSourceImport;
+import { config } from '../config';
+export interface DocumentSource {
+  documentId: string;
+  documentTitle: string;
+  excerpt: string;
+  relevanceScore: number;
+  pageNumber: number;
+}
 
 export interface SearchContext {
   category?: 'clinical-guideline' | 'drug-info' | 'disease-reference' | 'patient-education';
@@ -32,19 +33,7 @@ export interface RAGSearchResult {
 
 class RAGService {
   // Vertex AI client - will be used when RAG API is implemented
-  private vertexAI: VertexAI;
-  private corpusName: string;
-  private corpusId?: string;
-
   constructor() {
-    this.corpusName = config.rag.corpusName;
-    this.corpusId = config.rag.corpusId;
-
-    // Initialize Vertex AI (prepared for future RAG API implementation)
-    this.vertexAI = new VertexAI({
-      project: config.gcp.projectId,
-      location: config.gcp.location,
-    });
   }
 
   /**
@@ -57,11 +46,6 @@ class RAGService {
   ): Promise<DocumentSource[]> {
     try {
       console.log('[RAG Service] Searching corpus:', { query, context, options });
-
-      // Build the corpus resource path (for future RAG API implementation)
-      const corpusPath = this.corpusId 
-        ? `projects/${config.gcp.projectId}/locations/${config.gcp.location}/ragCorpora/${this.corpusId}`
-        : `projects/${config.gcp.projectId}/locations/${config.gcp.location}/ragCorpora/${this.corpusName}`;
 
       // Build query text with context filters if provided
       // TODO: Use queryText when implementing actual RAG API
@@ -156,21 +140,17 @@ class RAGService {
     }));
   }
 
-  /**
-   * Format search context into metadata filters
-   * TODO: Use this method when implementing actual RAG API filtering
-   * This method is prepared for future RAG API implementation
-   */
-  private formatContextFilters(context?: SearchContext): Record<string, string> {
-    const filters: Record<string, string> = {};
-    
-    if (context?.category) filters.category = context.category;
-    if (context?.language) filters.language = context.language;
-    if (context?.audience) filters.audience = context.audience;
-    if (context?.region) filters.region = context.region;
-    
-    return filters;
-  }
+
 }
 
-export const ragService = new RAGService();
+// Lazy singleton: only create instance when first accessed
+let ragServiceInstance: RAGService | null = null;
+
+export const ragService = new Proxy({} as RAGService, {
+  get(target, prop) {
+    if (!ragServiceInstance) {
+      ragServiceInstance = new RAGService();
+    }
+    return (ragServiceInstance as any)[prop];
+  }
+});
