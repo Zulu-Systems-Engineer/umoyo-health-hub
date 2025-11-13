@@ -1,34 +1,58 @@
-import { z } from "zod";
-import { router, publicProcedure } from "../app";
-import { chatQuerySchema } from "@umoyo/shared";
-import { ragService } from "../services/rag.service";
-import { geminiService } from "../services/gemini.service";
+import { router, publicProcedure } from '../trpc';
+import { z } from 'zod';
+import { getFirestore } from 'firebase-admin/firestore';
 
 export const chatRouter = router({
+  // chat.query: mutation
   query: publicProcedure
-    .input(chatQuerySchema)
+    .input(z.object({
+      message: z.string(),
+      sessionId: z.string().optional(),
+      context: z.object({
+        category: z.string().optional(),
+        language: z.string().optional(),
+        audience: z.string().optional(),
+        region: z.string().optional(),
+      }).optional(),
+    }))
     .mutation(async ({ input }) => {
-      // TODO: Implement RAG query flow
-      // 1. Retrieve relevant documents using RAG service
-      // 2. Generate response using Gemini with context
-      // 3. Return response with sources
-      
-      const { message, sessionId, context } = input;
-      
-      // Placeholder implementation
-      const sources = await ragService.searchDocuments(message, context);
-      const response = await geminiService.generateResponse(message, sources);
-      
-      return {
-        message: {
-          id: `msg-${Date.now()}`,
-          role: "assistant" as const,
-          content: response,
-          timestamp: new Date(),
-        },
-        sources,
-        sessionId: sessionId || `session-${Date.now()}`,
-      };
+      // ... your existing logic (Gemini + RAG + Firestore save)
+    }),
+
+  // chat.getHistory: query
+  getHistory: publicProcedure
+    .input(z.object({
+      sessionId: z.string(),
+      limit: z.number().optional().default(50),
+    }))
+    .query(async ({ input }) => {
+      // Emulator-friendly mock for local dev (optional)
+      if (process.env.FUNCTIONS_EMULATOR === 'true') {
+        const now = new Date();
+        return {
+          messages: [
+            { id: 'user-1', role: 'user', content: 'Hello, can you help?', timestamp: new Date(now.getTime() - 60000) },
+            { id: 'assistant-1', role: 'assistant', content: 'Sure! What do you need?', timestamp: new Date(now.getTime() - 30000) },
+          ],
+        };
+      }
+      const db = getFirestore();
+      const { sessionId, limit } = input;
+      const messagesSnapshot = await db
+        .collection('conversations')
+        .doc(sessionId)
+        .collection('messages')
+        .orderBy('timestamp', 'desc')
+        .limit(limit)
+        .get();
+      const messages = messagesSnapshot.docs
+        .map(doc => {
+          const data = doc.data() as any;
+          const ts = data.timestamp;
+          const timestamp = ts?.toDate ? ts.toDate() : ts instanceof Date ? ts : new Date();
+          return { ...data, timestamp };
+        })
+        .reverse();
+      return { messages };
     }),
 });
-

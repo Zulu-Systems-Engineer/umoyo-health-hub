@@ -1,0 +1,23 @@
+# Data files
+data/
+*.pdf
+*.json
+!package.json
+!tsconfig.json
+
+# Environment
+.env
+.env.local
+
+# Build output
+dist/
+*.log
+
+# Dependencies
+node_modules/
+
+# Service account keys
+*.json
+!package.json
+!tsconfig.json
+

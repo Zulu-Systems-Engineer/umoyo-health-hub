@@ -1,0 +1,23 @@
+I1113 12:10:04.631806   31064 load.go:31] Reloading schema and connectors...
+I1113 12:10:04.748832   31064 control.go:94] [/emulator/umoyo-health-hub 32fa] UpdateResources(): done
+Main schema: sources: schema\schema.gql [867B] 
+Connector "example": sources: 
+E1113 12:10:04.883303   31064 load.go:95] Errors generating SDK: [connector "example"]: invalid Data Connect Connector no query found in connector
+I1113 12:10:04.914431   31064 collector.go:107] schema extensions wrote into "F:\\Mobile Apps\\umoyo-health-hub\\umoyo-health-hub\\dataconnect\\.dataconnect\\schema"
+Generated sources: prelude.gql [73219B] main\implicit.gql [2227B] main\input.gql [63649B] main\relation.gql [34034B] main\query.gql [6286B] main\mutation.gql [16905B] 
+I1113 12:10:04.915632   31064 load.go:109] Finished reloading
+I1113 12:10:04.917753   31064 dev.go:105] Listening on address (HTTP + gRPC): 127.0.0.1:9400
+I1113 12:10:13.090455   31064 migrate.go:24] Running migration SQL:
+Step 1: CREATE EXTENSION IF NOT EXISTS "uuid-ossp"
+Step 2: CREATE TABLE "public"."user" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" timestamptz NOT NULL, "date_of_birth" date NULL, "display_name" text NOT NULL, "email" text NOT NULL, "gender" text NULL, "height" double precision NULL, "photo_url" text NULL, "weight" double precision NULL, PRIMARY KEY ("id"))
+Step 3: CREATE TABLE "public"."activity" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "user_id" uuid NOT NULL, "calories_burned" integer NOT NULL, "date" date NOT NULL, "duration_minutes" integer NOT NULL, "intensity" text NULL, "notes" text NULL, "type" text NOT NULL, PRIMARY KEY ("id"), CONSTRAINT "activity_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."user" ("id") ON DELETE CASCADE)
+Step 4: CREATE INDEX "activity_userId_idx" ON "public"."activity" ("user_id")
+Step 5: CREATE TABLE "public"."food_log" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "user_id" uuid NOT NULL, "calories" integer NOT NULL, "carbs_grams" double precision NULL, "date" date NOT NULL, "fat_grams" double precision NULL, "food_name" text NOT NULL, "meal_type" text NOT NULL, "notes" text NULL, "protein_grams" double precision NULL, "quantity" double precision NOT NULL, "unit" text NOT NULL, PRIMARY KEY ("id"), CONSTRAINT "food_log_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."user" ("id") ON DELETE CASCADE)
+Step 6: CREATE INDEX "food_log_userId_idx" ON "public"."food_log" ("user_id")
+Step 7: CREATE TABLE "public"."goal" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "user_id" uuid NOT NULL, "description" text NULL, "end_date" date NOT NULL, "name" text NOT NULL, "reminder_frequency" text NULL, "start_date" date NOT NULL, "status" text NOT NULL, "target_value" double precision NOT NULL, "unit" text NOT NULL, PRIMARY KEY ("id"), CONSTRAINT "goal_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."user" ("id") ON DELETE CASCADE)
+Step 8: CREATE INDEX "goal_userId_idx" ON "public"."goal" ("user_id")
+Step 9: CREATE TABLE "public"."metric_entry" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "user_id" uuid NOT NULL, "date" date NOT NULL, "metric_type" text NOT NULL, "notes" text NULL, "unit" text NOT NULL, "value" double precision NOT NULL, PRIMARY KEY ("id"), CONSTRAINT "metric_entry_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."user" ("id") ON DELETE CASCADE)
+Step 10: CREATE INDEX "metric_entry_userId_idx" ON "public"."metric_entry" ("user_id")
+I1113 12:10:13.549015   31064 control.go:94] [/emulator/umoyo-health-hub 40e4] UpdateResources(): done
+Main schema: sources: schema\schema.gql [867B] 
+Connector "example": sources: 

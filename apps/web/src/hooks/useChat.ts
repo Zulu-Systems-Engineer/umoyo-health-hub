@@ -1,10 +1,39 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import type { ChatMessage } from "@umoyo/shared";
 import { generateId } from "@umoyo/shared";
+import { trpc, trpcClient } from "@/lib/trpc";
 
 export function useChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [sessionId, setSessionId] = useState<string | null>(null);
+  const [isLoadingHistory, setIsLoadingHistory] = useState(false);
+
+  // Load conversation history when sessionId changes
+  useEffect(() => {
+    if (!sessionId) return;
+
+    const loadHistory = async () => {
+      setIsLoadingHistory(true);
+      try {
+        // Use vanilla client for non-hook usage
+        const result = await (trpcClient as any).chat.getHistory.query({ sessionId });
+        console.log('[useChat] chat.getHistory result:', result);
+        if (result?.messages && Array.isArray(result.messages)) {
+          setMessages(result.messages.map((msg: any) => ({
+            ...msg,
+            timestamp: msg.timestamp ? new Date(msg.timestamp) : new Date(),
+          })));
+        }
+      } catch (error) {
+        console.error('Error loading conversation history:', error);
+        // Don't set messages on error - start fresh
+      } finally {
+        setIsLoadingHistory(false);
+      }
+    };
+
+    loadHistory();
+  }, [sessionId]);
 
   const addMessage = useCallback((message: Omit<ChatMessage, "id" | "timestamp">) => {
     const newMessage: ChatMessage = {
@@ -13,8 +42,13 @@ export function useChat() {
       timestamp: new Date(),
     };
     setMessages((prev) => [...prev, newMessage]);
+    
+    // Note: Messages are automatically saved by the backend in the chat.query endpoint
+    // We only need to save here if we want to save user messages before the backend response
+    // For now, we'll rely on backend auto-saving to avoid duplicate saves
+    
     return newMessage;
-  }, []);
+  }, [sessionId]);
 
   const clearMessages = useCallback(() => {
     setMessages([]);
@@ -35,6 +69,7 @@ export function useChat() {
     addMessage,
     clearMessages,
     initializeSession,
+    isLoadingHistory,
   };
 }
 

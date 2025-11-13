@@ -9,17 +9,34 @@
     "lint": "turbo run lint",
     "test": "turbo run test",
     "clean": "turbo run clean",
-    "format": "prettier --write \"**/*.{ts,tsx,md,json}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "serve:functions": "firebase emulators:start --only functions",
+    "emulators:configure": "node scripts/configure-emulators.js",
+    "emulators:sync": "node scripts/sync-emulator-ports.js",
+    "emulators:sync:watch": "node scripts/sync-emulator-ports.js --watch",
+    "emulators:sync:wait": "node scripts/sync-emulator-ports.js --wait",
+    "emulators:discovery": "node scripts/port-discovery-service.js",
+    "emulators:start": "node scripts/start-emulators-with-sync.js",
+    "emulators:start:functions": "node scripts/start-emulators-with-sync.js --functions-only",
+    "emulators:test": "node scripts/test-port-discovery.js"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
+    "rimraf": "^6.1.0",
     "turbo": "^2.1.3",
     "typescript": "^5.3.3"
   },
   "packageManager": "pnpm@9.0.0",
   "engines": {
-    "node": ">=18.0.0",
+    "node": ">=20.0.0",
     "pnpm": ">=9.0.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/node": "22.18.13"
+    }
+  },
+  "dependencies": {
+    "cors": "^2.8.5"
   }
 }
-

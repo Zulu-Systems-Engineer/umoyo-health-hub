@@ -1,0 +1,74 @@
+// ============================================================================
+// Firestore Security Rules
+// ============================================================================
+
+rules_version = '2';
+
+service cloud.firestore {
+
+  match /databases/{database}/documents {
+
+    
+
+    // Vector chunks - read-only for authenticated users
+
+    match /vectorChunks/{chunkId} {
+
+      allow read: if request.auth != null;
+
+      allow write: if false; // Only backend can write
+
+    }
+
+
+
+    // Vector DB metadata
+
+    match /vectorDB/{id} {
+
+      allow read: if request.auth != null;
+
+      allow write: if false; // Only backend can write
+
+    }
+
+
+
+    // User conversations
+
+    match /conversations/{conversationId} {
+
+      allow read, write: if request.auth != null && 
+
+        request.auth.uid == resource.data.userId;
+
+    }
+
+
+
+    // Conversation messages
+
+    match /conversations/{conversationId}/messages/{messageId} {
+
+      allow read, write: if request.auth != null &&
+
+        get(/databases/$(database)/documents/conversations/$(conversationId)).data.userId == request.auth.uid;
+
+    }
+
+
+
+    // User profiles
+
+    match /users/{userId} {
+
+      allow read: if request.auth != null && request.auth.uid == userId;
+
+      allow write: if request.auth != null && request.auth.uid == userId;
+
+    }
+
+  }
+
+}
+

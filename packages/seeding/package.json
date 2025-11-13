@@ -1,23 +1,48 @@
 {
   "name": "@umoyo/seeding",
-  "version": "0.1.0",
-  "type": "module",
-  "main": "./src/index.ts",
+  "version": "1.0.0",
+  "description": "Data ingestion and RAG pipeline for Umoyo Health Hub",
+  "main": "dist/index.js",
   "scripts": {
-    "ingest-pdfs": "tsx src/ingest-pdfs.ts",
-    "create-corpus": "tsx src/create-corpus.ts",
-    "pubmed-ingestion": "tsx src/pubmed-ingestion.ts",
-    "typecheck": "tsc --noEmit"
+    "build": "tsc",
+    "dev": "node scripts/dev-wrapper.cjs",
+    "start": "node dist/index.js",
+    "pipeline": "tsx src/index.ts",
+    "rag-pipeline": "tsx src/scripts/run-rag-pipeline.ts",
+    "download-only": "tsx src/scripts/download-only.ts",
+    "ingest-from-bucket": "tsx src/scripts/ingest-from-bucket.ts",
+    "create-corpus": "tsx src/scripts/create-corpus.ts",
+    "test-pubmed": "tsx src/scripts/test-pubmed.ts",
+    "test-embedding": "tsx src/scripts/test-embedding.ts",
+    "test-search": "tsx src/scripts/test-search.ts",
+    "test-firestore": "tsx src/scripts/test-firestore.ts",
+    "diagnose": "tsx src/scripts/diagnose.ts",
+    "clean": "rimraf dist data/downloads"
   },
   "dependencies": {
+    "@google-cloud/aiplatform": "^3.35.0",
+    "@google-cloud/firestore": "^8.0.0",
+    "@google-cloud/storage": "^7.17.2",
+    "@google-cloud/vertexai": "^1.10.0",
+    "@google-cloud/vision": "^5.3.4",
     "@umoyo/shared": "workspace:*",
-    "@google-cloud/storage": "^7.7.0",
-    "@google-cloud/aiplatform": "^3.0.0"
+    "axios": "^1.6.5",
+    "canvas": "^3.2.0",
+    "cheerio": "^1.0.0-rc.12",
+    "long": "^5.2.3",
+    "dotenv": "^17.2.3",
+    "pdf-parse": "^1.1.4",
+    "pdf.js-extract": "^0.2.1",
+    "pdfjs-dist": "^5.4.394",
+    "protobufjs": "^7.3.2",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20.11.0",
-    "tsx": "^4.7.0",
-    "typescript": "^5.3.3"
+    "@types/node": "^20.19.24",
+    "@types/pdf-parse": "^1.1.5",
+    "@types/uuid": "^9.0.8",
+    "rimraf": "^6.1.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
   }
 }
-

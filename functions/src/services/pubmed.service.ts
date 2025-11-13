@@ -21,7 +21,8 @@ interface PubMedSearchParams {
 }
 
 class PubMedService {
-  private baseUrl = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils";
+  // Base URL for PubMed API (to be used in implementation)
+  // private baseUrl = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils";
 
   async searchArticles(params: PubMedSearchParams): Promise<PubMedArticle[]> {
     // TODO: Implement PubMed API integration
