@@ -117,7 +117,7 @@ export class HybridRAGService {
 
     return {
       answer: vertexResult.answer,
-      sources: vertexResult.sources.map(s => ({
+      sources: vertexResult.sources.map((s: { title: string; snippet: string; uri?: string }) => ({
         title: s.title,
         snippet: s.snippet,
         source: 'vertex' as const,
@@ -142,7 +142,7 @@ export class HybridRAGService {
 
     return {
       answer: customResult.answer,
-      sources: customResult.citations.map(c => ({
+      sources: customResult.citations.map((c: { source: string; content: string; similarity: number }) => ({
         title: c.source,
         snippet: c.content,
         source: 'custom' as const,
@@ -182,7 +182,7 @@ export class HybridRAGService {
     
     if (vertexData) {
       mergedSources.push(
-        ...vertexData.sources.map(s => ({
+        ...vertexData.sources.map((s: { title: string; snippet: string; uri?: string }) => ({
           title: s.title,
           snippet: s.snippet,
           source: 'vertex' as const,
@@ -193,7 +193,7 @@ export class HybridRAGService {
 
     if (customData) {
       mergedSources.push(
-        ...customData.citations.map(c => ({
+        ...customData.citations.map((c: { source: string; content: string; similarity: number }) => ({
           title: c.source,
           snippet: c.content,
           source: 'custom' as const,
