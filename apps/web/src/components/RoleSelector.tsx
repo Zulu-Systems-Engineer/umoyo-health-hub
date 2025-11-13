@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { UserCircle, Stethoscope, Shield, Heart, ArrowRight } from "lucide-react";
+import { UserCircle, Stethoscope, Shield, Heart, ArrowRight, User } from "lucide-react";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
+import type { User as FirebaseUser } from "firebase/auth";
 
 interface RoleSelectorProps {
   onSelectRole: (role: "patient" | "professional") => void;
   isLoading?: boolean;
+  user?: FirebaseUser | null;
 }
 
-export default function RoleSelector({ onSelectRole, isLoading = false }: RoleSelectorProps) {
+export default function RoleSelector({ onSelectRole, isLoading = false, user }: RoleSelectorProps) {
   const [selectedRole, setSelectedRole] = useState<"patient" | "professional" | null>(null);
 
   const handlePatientClick = () => {
@@ -39,7 +41,7 @@ export default function RoleSelector({ onSelectRole, isLoading = false }: RoleSe
       description: "Access clinical guidelines and evidence-based protocols",
       icon: Stethoscope,
       color: "green",
-      buttonText: "Sign in as Professional",
+      buttonText: user ? "Continue as Professional" : "Sign in as Professional",
       features: ["Clinical guidelines", "Evidence-based protocols", "Professional tools"]
     }
   ];
@@ -159,6 +161,18 @@ export default function RoleSelector({ onSelectRole, isLoading = false }: RoleSe
             );
           })}
         </div>
+
+        {/* User Info */}
+        {user && (
+          <div className="text-center mt-8 mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-50 border border-green-200 rounded-full">
+              <User className="h-4 w-4 text-green-600" />
+              <span className="text-sm text-green-800 font-medium">
+                Signed in as {user.displayName || user.email}
+              </span>
+            </div>
+          </div>
+        )}
 
         {/* Footer Info */}
         <div className="text-center mt-12 space-y-4">

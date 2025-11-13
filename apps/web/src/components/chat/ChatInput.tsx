@@ -1,4 +1,4 @@
-import { Send, Mic, MicOff, Paperclip, Sparkles } from "lucide-react";
+import { Send, Mic, MicOff, Paperclip } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -30,15 +30,12 @@ export default function ChatInput({
   onSubmit,
   isLoading = false,
   disabled = false,
-  quickActions,
-  onQuickAction,
 }: ChatInputProps) {
   const {
     register,
     handleSubmit,
     reset,
     watch,
-    setValue,
     formState: { errors },
   } = useForm<ChatInputForm>({
     resolver: zodResolver(chatInputSchema),
@@ -68,17 +65,6 @@ export default function ChatInput({
     }
   }, [message]);
 
-  const handleQuickAction = (query: string) => {
-    if (onQuickAction) {
-      onQuickAction(query);
-    } else {
-      setValue("message", query);
-      if (textareaRef.current) {
-        textareaRef.current.focus();
-      }
-    }
-  };
-
   const toggleRecording = () => {
     setIsRecording(!isRecording);
     // In a real app, you would integrate with Web Speech API here
@@ -91,9 +77,7 @@ export default function ChatInput({
     }
   };
 
-  const placeholderText = quickActions 
-    ? "Ask about symptoms, treatments, medications..."
-    : "Type your message here...";
+  const placeholderText = "Type your message here...";
 
   return (
     <div className="w-full">

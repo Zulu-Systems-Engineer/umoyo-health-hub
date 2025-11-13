@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import type { ChatMessage } from "@umoyo/shared";
 import { generateId } from "@umoyo/shared";
-import { trpc, trpcClient } from "@/lib/trpc";
+import { trpcClient } from "@/lib/trpc";
 
 export function useChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -16,9 +16,10 @@ export function useChat() {
       setIsLoadingHistory(true);
       try {
         // Use vanilla client for non-hook usage
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const result = await (trpcClient as any).chat.getHistory.query({ sessionId });
         if (result?.messages && Array.isArray(result.messages)) {
-          setMessages(result.messages.map((msg: any) => ({
+          setMessages(result.messages.map((msg: ChatMessage & { timestamp: string | Date }) => ({
             ...msg,
             timestamp: msg.timestamp ? new Date(msg.timestamp) : new Date(),
           })));
@@ -47,7 +48,7 @@ export function useChat() {
     // For now, we'll rely on backend auto-saving to avoid duplicate saves
     
     return newMessage;
-  }, [sessionId]);
+  }, []);
 
   const clearMessages = useCallback(() => {
     setMessages([]);

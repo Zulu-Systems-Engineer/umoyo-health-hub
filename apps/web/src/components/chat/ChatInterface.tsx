@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Loader2, Bot, Shield, BookOpen, AlertCircle, Sparkles, Zap, Heart } from "lucide-react";
-import { useChat } from "@/hooks";
+import { Loader2, Bot, Shield, BookOpen, AlertCircle, Zap, LogOut } from "lucide-react";
+import { useChat, useAuth } from "@/hooks";
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent } from "../ui/card";
 import { Badge } from "../ui/badge";
@@ -37,11 +37,23 @@ export default function ChatInterface({
   onExit,
 }: ChatInterfaceProps) {
   const { messages, sessionId, addMessage, initializeSession, clearMessages } = useChat();
+  const { user, signOut } = useAuth();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [isAtBottom, setIsAtBottom] = useState(true);
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      if (onExit) {
+        onExit();
+      }
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
 
   useEffect(() => {
     initializeSession(initialSessionId);
@@ -174,6 +186,18 @@ export default function ChatInterface({
             </div>
             
             <div className="flex items-center gap-2">
+              {user && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleLogout}
+                  className="text-gray-600 hover:text-gray-900"
+                  title="Sign out"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Sign Out
+                </Button>
+              )}
               <Button
                 variant="outline"
                 size="sm"

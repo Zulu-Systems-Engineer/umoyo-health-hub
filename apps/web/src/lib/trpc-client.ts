@@ -1,7 +1,6 @@
 import { createTRPCReact } from '@trpc/react-query';
 import { createTRPCClient, httpBatchLink } from '@trpc/client';
-// @ts-expect-error - AppRouter type will be available after functions are built
-import type { AppRouter } from '../../../functions/src/index';
+import type { AppRouter } from '../../../functions/lib/index';
 
 export const trpc = createTRPCReact<AppRouter>();
 
@@ -180,10 +179,28 @@ export function createClient() {
       httpBatchLink({
         url: backendUrl,
         
-        // Important: Add headers
-        headers: () => ({
-          'Content-Type': 'application/json',
-        }),
+        // Add headers including auth token
+        headers: async () => {
+          const headers: Record<string, string> = {
+            'Content-Type': 'application/json',
+          };
+
+          // Get Firebase ID token if user is authenticated
+          if (typeof window !== 'undefined') {
+            try {
+              const { auth } = await import('@/lib/firebase');
+              if (auth?.currentUser) {
+                const token = await auth.currentUser.getIdToken();
+                headers['Authorization'] = `Bearer ${token}`;
+              }
+            } catch (error) {
+              // Auth not available or user not logged in - continue without token
+              console.debug('No auth token available:', error);
+            }
+          }
+
+          return headers;
+        },
         
         // Important: Include credentials
         fetch(url, options) {
