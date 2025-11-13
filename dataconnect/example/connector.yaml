@@ -6,3 +6,25 @@ generate:
       packageJsonDir: ..\..
       react: false
       angular: false
+    - outputDir: ..\..\packages\shared\src\dataconnect-generated
+      package: "@dataconnect/generated"
+      packageJsonDir: ..\..\packages\shared
+      react: false
+      angular: false
+    - outputDir: ..\..\packages\seeding\src\dataconnect-generated
+      package: "@dataconnect/generated"
+      packageJsonDir: ..\..\packages\seeding
+      react: false
+      angular: false
+    - outputDir: ..\..\apps\web\src\dataconnect-generated
+      package: "@dataconnect/generated"
+      packageJsonDir: ..\..\apps\web
+      react: true
+      angular: false
+  adminNodeSdk:
+    - outputDir: ..\..\new\src\dataconnect-admin-generated
+      package: "@dataconnect/admin-generated"
+      packageJsonDir: ..\..\new
+    - outputDir: ..\..\functions\src\dataconnect-admin-generated
+      package: "@dataconnect/admin-generated"
+      packageJsonDir: ..\..\functions

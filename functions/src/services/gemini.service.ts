@@ -93,17 +93,63 @@ class GeminiService {
   }
 
   /**
+   * Estimate token count (rough approximation: 1 token ≈ 4 characters)
+   */
+  private estimateTokenCount(text: string): number {
+    return Math.ceil(text.length / 4);
+  }
+
+  /**
+   * Truncate context to fit within token limits
+   * Keeps the model input under token limit, reserving space for system prompt and response
+   * For gemini-2.0-flash-exp: 20k tokens max, so we use ~10k for context
+   * For gemini-1.5-pro: 2M tokens max, so we use ~1M for context
+   */
+  private truncateContext(context: DocumentSource[], maxTokens: number = 8000): DocumentSource[] {
+    const truncated: DocumentSource[] = [];
+    let totalTokens = 0;
+
+    for (const doc of context) {
+      const docText = `[Source: ${doc.documentTitle}]\n${doc.excerpt}`;
+      const docTokens = this.estimateTokenCount(docText);
+      
+      if (totalTokens + docTokens > maxTokens) {
+        // If adding this doc would exceed limit, truncate the excerpt
+        const remainingTokens = maxTokens - totalTokens;
+        const remainingChars = remainingTokens * 4;
+        
+        if (remainingChars > 100) { // Only add if we can include meaningful content
+          truncated.push({
+            ...doc,
+            excerpt: doc.excerpt.substring(0, remainingChars) + '...'
+          });
+        }
+        break;
+      }
+      
+      truncated.push(doc);
+      totalTokens += docTokens;
+    }
+
+    console.log(`[Gemini Service] Truncated context: ${context.length} -> ${truncated.length} docs, ~${totalTokens} tokens`);
+    return truncated;
+  }
+
+  /**
    * Build a prompt with medical context and safety instructions
    */
   private buildPrompt(query: string, context: DocumentSource[]): string {
-    const contextText = context
+    // Truncate context to prevent token limit errors
+    const truncatedContext = this.truncateContext(context);
+    
+    const contextText = truncatedContext
       .map((doc, index) => {
         return `[Source ${index + 1}: ${doc.documentTitle}]
 ${doc.excerpt}`;
       })
       .join('\n\n---\n\n');
 
-    const sourcesList = context
+    const sourcesList = truncatedContext
       .map((doc, index) => `${index + 1}. ${doc.documentTitle}`)
       .join('\n');
 

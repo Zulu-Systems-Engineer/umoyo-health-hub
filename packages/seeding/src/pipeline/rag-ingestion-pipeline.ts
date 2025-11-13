@@ -13,7 +13,11 @@ export class RAGIngestionPipeline {
   private ocrService: OCRService;
 
   constructor() {
-    this.chunkingService = new ChunkingService(512, 50);
+    const envChunkSize = parseInt(process.env.MAX_CHUNK_SIZE || '', 10);
+    const envChunkOverlap = parseInt(process.env.CHUNK_OVERLAP || '', 10);
+    const chunkSize = Number.isFinite(envChunkSize) ? envChunkSize : 60000;
+    const chunkOverlap = Number.isFinite(envChunkOverlap) ? envChunkOverlap : 2000;
+    this.chunkingService = new ChunkingService(chunkSize, chunkOverlap);
     this.embeddingService = new EmbeddingService();
     this.vectorService = new FirestoreVectorService();
     this.ocrService = new OCRService();
@@ -99,8 +103,8 @@ export class RAGIngestionPipeline {
     
     await this.vectorService.updateMetadata({
       version: 1,
-      embeddingModel: 'text-embedding-005',
-      dimensions: 768,
+      embeddingModel: this.embeddingService.getModelName(),
+      dimensions: this.embeddingService.getDimensions(),
       totalDocuments: (metadata?.totalDocuments || 0) + successfulDocs,
       totalChunks: (metadata?.totalChunks || 0) + totalChunks,
       updatedAt: Date.now()

@@ -8,7 +8,7 @@ export class GCSService {
   private storage: Storage;
   private bucketName: string;
 
-  constructor(bucketName: string = 'umoyo-health-pdfs') {
+  constructor(bucketName: string = 'medical_book') {
     // Use authentication config (supports both env var and keyFilename)
     const config = getStorageConfig();
     

@@ -18,7 +18,10 @@ export class ChunkingService {
   private readonly chunkOverlap: number;
   private ocrService?: OCRService;
 
-  constructor(chunkSize: number = 512, chunkOverlap: number = 50) {
+  // Increased chunk size to stay within token limits
+  // text-embedding-005 supports max 20,000 tokens
+  // Assuming ~4 chars per token, aim for 60,000 chars (~15,000 tokens) for safety
+  constructor(chunkSize: number = 60000, chunkOverlap: number = 2000) {
     this.chunkSize = chunkSize;
     this.chunkOverlap = chunkOverlap;
   }
@@ -36,17 +39,43 @@ export class ChunkingService {
     let start = 0;
 
     while (start < content.length) {
-      const end = Math.min(content.length, start + this.chunkSize);
+      let end = Math.min(content.length, start + this.chunkSize);
       
-      chunks.push({
-        content: content.slice(start, end),
-        index: chunkIndex++,
-        startChar: start,
-        endChar: end
-      });
+      // Try to break at sentence boundary if not at end of content
+      if (end < content.length) {
+        // Look for sentence endings within last 500 chars
+        const searchStart = Math.max(end - 500, start);
+        const segment = content.substring(searchStart, end);
+        const sentenceEndings = ['. ', '.\n', '! ', '!\n', '? ', '?\n'];
+        
+        let bestBreak = -1;
+        for (const ending of sentenceEndings) {
+          const index = segment.lastIndexOf(ending);
+          if (index > bestBreak) {
+            bestBreak = index;
+          }
+        }
 
+        if (bestBreak !== -1) {
+          end = searchStart + bestBreak + 1;
+        }
+      }
+      
+      const chunk = content.slice(start, end).trim();
+      if (chunk.length > 0) {
+        chunks.push({
+          content: chunk,
+          index: chunkIndex++,
+          startChar: start,
+          endChar: end
+        });
+      }
+
+      // Move start with overlap, ensuring progress
       start = end - this.chunkOverlap;
-      if (start < 0) start = 0;
+      if (start <= (chunks[chunks.length - 1]?.startChar || 0)) {
+        start = end;
+      }
       
       if (end >= content.length) break;
     }

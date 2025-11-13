@@ -17,6 +17,7 @@ export function useChat() {
       try {
         // Use vanilla client for non-hook usage
         const result = await (trpcClient as any).chat.getHistory.query({ sessionId });
+        console.log('[useChat] chat.getHistory result:', result);
         if (result?.messages && Array.isArray(result.messages)) {
           setMessages(result.messages.map((msg: any) => ({
             ...msg,

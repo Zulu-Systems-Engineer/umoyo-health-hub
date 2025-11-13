@@ -139,6 +139,10 @@ extend type Activity {
   ✨ Maximum of the `durationMinutes` field in the `Activity` table.
   """
   durationMinutes_max: Int @fdc_generated(from: "Activity.durationMinutes", purpose: QUERY_MAX)
+  """
+  A generated field that is used for caching results in SDKs.
+  """
+  _id: ID! @fdc_generated(from: "Activity.id", purpose: GLOBAL_ID)
 }
 extend type FoodLog {
   """
@@ -395,6 +399,10 @@ extend type FoodLog {
   ✨ Maximum of the `quantity` field in the `FoodLog` table.
   """
   quantity_max: Float @fdc_generated(from: "FoodLog.quantity", purpose: QUERY_MAX)
+  """
+  A generated field that is used for caching results in SDKs.
+  """
+  _id: ID! @fdc_generated(from: "FoodLog.id", purpose: GLOBAL_ID)
 }
 extend type Goal {
   """
@@ -537,6 +545,10 @@ extend type Goal {
   ✨ Maximum of the `targetValue` field in the `Goal` table.
   """
   targetValue_max: Float @fdc_generated(from: "Goal.targetValue", purpose: QUERY_MAX)
+  """
+  A generated field that is used for caching results in SDKs.
+  """
+  _id: ID! @fdc_generated(from: "Goal.id", purpose: GLOBAL_ID)
 }
 extend type MetricEntry {
   """
@@ -644,6 +656,10 @@ extend type MetricEntry {
   ✨ Maximum of the `value` field in the `MetricEntry` table.
   """
   value_max: Float @fdc_generated(from: "MetricEntry.value", purpose: QUERY_MAX)
+  """
+  A generated field that is used for caching results in SDKs.
+  """
+  _id: ID! @fdc_generated(from: "MetricEntry.id", purpose: GLOBAL_ID)
 }
 extend type User {
   """
@@ -939,4 +955,8 @@ extend type User {
   ✨ Maximum of the `weight` field in the `User` table.
   """
   weight_max: Float @fdc_generated(from: "User.weight", purpose: QUERY_MAX)
+  """
+  A generated field that is used for caching results in SDKs.
+  """
+  _id: ID! @fdc_generated(from: "User.id", purpose: GLOBAL_ID)
 }

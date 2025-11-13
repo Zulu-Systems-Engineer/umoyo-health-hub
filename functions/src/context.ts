@@ -1,18 +1,11 @@
-import {Request, Response} from 'express';
-import type { CreateExpressContextOptions } from '@trpc/server/adapters/express';
+import type { CreateHTTPContextOptions } from '@trpc/server/adapters/standalone';
 
-export type Context = {
-  req: Request;
-  res: Response;
+export const createContext = async (opts: CreateHTTPContextOptions) => {
+  return {
+    req: opts.req,
+    res: opts.res,
+  };
 };
 
-export async function createContext({
-  req,
-  res,
-}: CreateExpressContextOptions): Promise<Context> {
-  return {
-    req,
-    res,
-  };
-}
+export type Context = Awaited<ReturnType<typeof createContext>>;
 

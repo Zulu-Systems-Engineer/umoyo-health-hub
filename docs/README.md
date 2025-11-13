@@ -57,12 +57,38 @@ umoyo-health-hub/
 
 4. Start development servers:
    ```bash
-   # Start frontend dev server
-   pnpm --filter @umoyo/web dev
-   
-   # Start Firebase emulators
-   pnpm --filter @umoyo/functions dev
+   # Start Functions emulator only (simple)
+   npm run serve:functions
+
+   # In another terminal, start Vite dev server
+   npm run dev
    ```
+
+## Local Testing
+
+- Backend URL for local tRPC: `http://127.0.0.1:5001/umoyo-health-hub/us-central1/api/trpc`
+- Frontend env file: `apps/web/.env.local`
+
+```
+VITE_TRPC_URL=http://127.0.0.1:5001/umoyo-health-hub/us-central1/api/trpc
+```
+
+- Verify endpoints:
+  - `GET http://127.0.0.1:5001/umoyo-health-hub/us-central1/health` → 200 OK
+  - `POST http://127.0.0.1:5001/umoyo-health-hub/us-central1/api/trpc/chat.getHistory` via the app
+
+- Expected console output when calling `chat.getHistory` locally:
+
+```
+[useChat] chat.getHistory result: {
+  messages: [
+    { id: 'user-1', role: 'user', content: 'Hello, can you help?', timestamp: '...' },
+    { id: 'assistant-1', role: 'assistant', content: 'Sure! What do you need?', timestamp: '...' }
+  ]
+}
+```
+
+Note: When running the Functions emulator, `chat.getHistory` returns mock data to simplify local development. In production, it reads from Firestore.
 
 ## Development
 

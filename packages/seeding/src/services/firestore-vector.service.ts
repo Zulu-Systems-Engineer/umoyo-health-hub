@@ -1,11 +1,19 @@
-import { Firestore } from '@google-cloud/firestore';
 import { VectorChunk, VectorDBMetadata } from '@umoyo/shared';
+import { getFirestoreConfig } from '../config/auth';
+import Long from 'long';
+import * as protobufjs from 'protobufjs';
 
 export class FirestoreVectorService {
-  private firestore: Firestore;
+  private firestore: any;
 
   constructor() {
-    this.firestore = new Firestore();
+    // Configure protobufjs to use Long implementation required by Firestore
+    (protobufjs as any).util.Long = Long;
+    (protobufjs as any).configure();
+
+    const config = getFirestoreConfig();
+    const { Firestore } = require('@google-cloud/firestore');
+    this.firestore = new Firestore(config);
   }
 
   /**
@@ -42,10 +50,15 @@ export class FirestoreVectorService {
    * Update vector database metadata
    */
   async updateMetadata(metadata: VectorDBMetadata): Promise<void> {
+    const payload: any = {
+      ...metadata,
+      updatedAt: new Date()
+    };
+
     await this.firestore
       .collection('vectorDB')
       .doc('metadata')
-      .set(metadata);
+      .set(payload);
   }
 
   /**
@@ -57,7 +70,15 @@ export class FirestoreVectorService {
       .doc('metadata')
       .get();
 
-    return doc.exists ? (doc.data() as VectorDBMetadata) : null;
+    if (!doc.exists) return null;
+
+    const data: any = doc.data();
+    const updatedAt = data.updatedAt;
+    if (updatedAt && typeof updatedAt.toMillis === 'function') {
+      data.updatedAt = updatedAt.toMillis();
+    }
+
+    return data as VectorDBMetadata;
   }
 
   /**
@@ -70,7 +91,7 @@ export class FirestoreVectorService {
       .orderBy('chunkIndex')
       .get();
 
-    return snapshot.docs.map(doc => doc.data() as VectorChunk);
+    return snapshot.docs.map((doc: FirebaseFirestore.QueryDocumentSnapshot) => doc.data() as VectorChunk);
   }
 
   /**
@@ -93,7 +114,7 @@ export class FirestoreVectorService {
     const snapshot = await query.get();
     
     // Calculate cosine similarity for each chunk
-    const results = snapshot.docs.map(doc => {
+    const results = snapshot.docs.map((doc: FirebaseFirestore.QueryDocumentSnapshot) => {
       const chunk = doc.data() as VectorChunk;
       const similarity = this.cosineSimilarity(queryEmbedding, chunk.embedding);
       
@@ -102,7 +123,7 @@ export class FirestoreVectorService {
 
     // Sort by similarity and return top-k
     return results
-      .sort((a, b) => b.similarity - a.similarity)
+      .sort((a: VectorChunk & { similarity: number }, b: VectorChunk & { similarity: number }) => b.similarity - a.similarity)
       .slice(0, topK);
   }
 
@@ -133,7 +154,7 @@ export class FirestoreVectorService {
       .get();
 
     const batch = this.firestore.batch();
-    snapshot.docs.forEach(doc => {
+    snapshot.docs.forEach((doc: FirebaseFirestore.QueryDocumentSnapshot) => {
       batch.delete(doc.ref);
     });
 
