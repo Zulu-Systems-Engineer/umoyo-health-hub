@@ -1,13 +1,13 @@
-I1111 23:14:27.548357   33821 load.go:31] Reloading schema and connectors...
-I1111 23:14:27.602523   33821 control.go:94] [/emulator/umoyo-health-hub f5c9] UpdateResources(): done
+I1114 02:15:52.176397   41958 load.go:31] Reloading schema and connectors...
+I1114 02:15:52.289442   41958 control.go:94] [/emulator/umoyo-health-hub 4470] UpdateResources(): done
 Main schema: sources: schema/schema.gql [867B] 
 Connector "example": sources: 
-E1111 23:14:27.647901   33821 load.go:95] Errors generating SDK: [connector "example"]: invalid Data Connect Connector no query found in connector
-I1111 23:14:27.649310   33821 collector.go:107] schema extensions wrote into "/home/aliyon-dev/Documents/2025/coding projects/umoyo-health-hub/dataconnect/.dataconnect/schema"
-Generated sources: main/query.gql [6286B] main/mutation.gql [16905B] main/implicit.gql [2227B] main/input.gql [63649B] prelude.gql [73219B] main/relation.gql [33335B] 
-I1111 23:14:27.649580   33821 load.go:109] Finished reloading
-I1111 23:14:27.650122   33821 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:9400
-I1111 23:14:31.367904   33821 migrate.go:24] Running migration SQL:
+E1114 02:15:52.372325   41958 load.go:95] Errors generating SDK: [connector "example"]: invalid Data Connect Connector no query found in connector
+I1114 02:15:52.381201   41958 collector.go:107] schema extensions wrote into "/home/aliyon-dev/Documents/2025/coding projects/umoyo-health-hub/dataconnect/.dataconnect/schema"
+Generated sources: main/relation.gql [33335B] main/query.gql [6286B] main/mutation.gql [16905B] prelude.gql [73219B] main/implicit.gql [2227B] main/input.gql [63649B] 
+I1114 02:15:52.381516   41958 load.go:109] Finished reloading
+I1114 02:15:52.382348   41958 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:9400
+I1114 02:15:56.350199   41958 migrate.go:24] Running migration SQL:
 Step 1: CREATE EXTENSION IF NOT EXISTS "uuid-ossp"
 Step 2: CREATE TABLE "public"."user" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" timestamptz NOT NULL, "date_of_birth" date NULL, "display_name" text NOT NULL, "email" text NOT NULL, "gender" text NULL, "height" double precision NULL, "photo_url" text NULL, "weight" double precision NULL, PRIMARY KEY ("id"))
 Step 3: CREATE TABLE "public"."activity" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "user_id" uuid NOT NULL, "calories_burned" integer NOT NULL, "date" date NOT NULL, "duration_minutes" integer NOT NULL, "intensity" text NULL, "notes" text NULL, "type" text NOT NULL, PRIMARY KEY ("id"), CONSTRAINT "activity_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."user" ("id") ON DELETE CASCADE)
@@ -18,6 +18,6 @@ Step 7: CREATE TABLE "public"."goal" ("id" uuid NOT NULL DEFAULT uuid_generate_v
 Step 8: CREATE INDEX "goal_userId_idx" ON "public"."goal" ("user_id")
 Step 9: CREATE TABLE "public"."metric_entry" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "user_id" uuid NOT NULL, "date" date NOT NULL, "metric_type" text NOT NULL, "notes" text NULL, "unit" text NOT NULL, "value" double precision NOT NULL, PRIMARY KEY ("id"), CONSTRAINT "metric_entry_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."user" ("id") ON DELETE CASCADE)
 Step 10: CREATE INDEX "metric_entry_userId_idx" ON "public"."metric_entry" ("user_id")
-I1111 23:14:32.545482   33821 control.go:94] [/emulator/umoyo-health-hub 9113] UpdateResources(): done
+I1114 02:15:57.524605   41958 control.go:94] [/emulator/umoyo-health-hub 2f5b] UpdateResources(): done
 Main schema: sources: schema/schema.gql [867B] 
 Connector "example": sources: 

@@ -7,6 +7,7 @@ import { router, publicProcedure } from '../trpc';
 import { z } from 'zod';
 import type { DocumentSource } from '../services/rag.service';
 import { getFirestore } from 'firebase-admin/firestore';
+import { initializeServices } from '../init';
 
 // Type definitions
 export interface ChatResponse {
@@ -44,7 +45,7 @@ export const chatRouter = router({
    */
   query: publicProcedure
     .input(chatQuerySchema)
-    .mutation(async ({ input }): Promise<ChatResponse> => {
+    .mutation(async ({ input, ctx }): Promise<ChatResponse> => {
       const { message, sessionId, context } = input;
 
       try {
@@ -96,8 +97,10 @@ export const chatRouter = router({
         };
 
          // 4. Save messages to conversation history (async, don't wait)
+         // Ensure Firebase Admin is initialized before using Firestore
+         initializeServices();
          const db = getFirestore();
-         const userId = null; // No authentication - userId is always null
+         const userId = ctx.user?.uid || null; // Get user ID if authenticated
          Promise.all([
            // Save user message
            db
@@ -177,6 +180,8 @@ export const chatRouter = router({
     }))
     .mutation(async ({ input }) => {
       try {
+        // Ensure Firebase Admin is initialized before using Firestore
+        initializeServices();
         const db = getFirestore();
         const { sessionId, message } = input;
 
@@ -224,6 +229,8 @@ export const chatRouter = router({
     }))
     .query(async ({ input }) => {
       try {
+        // Ensure Firebase Admin is initialized before using Firestore
+        initializeServices();
         const db = getFirestore();
         const { sessionId, limit } = input;
 
@@ -259,6 +266,8 @@ export const chatRouter = router({
     }))
     .query(async ({ input }) => {
       try {
+        // Ensure Firebase Admin is initialized before using Firestore
+        initializeServices();
         const db = getFirestore();
         const { limit } = input;
 

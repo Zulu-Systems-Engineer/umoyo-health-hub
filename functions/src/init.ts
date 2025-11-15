@@ -26,13 +26,8 @@ export function initializeServices() {
     
     // Initialize Firestore
     const db = getFirestore(app);
-    if (useEmulator) {
-      const [host, port] = (process.env.FIRESTORE_EMULATOR_HOST || 'localhost:8080').split(':');
-      db.settings({
-        host: `${host}:${port}`,
-        ssl: false,
-      });
-    }
+    // Note: Firebase Admin SDK automatically detects emulator via FIRESTORE_EMULATOR_HOST
+    // No need to manually configure settings in newer versions
 
     // Initialize Storage
     const storage = getStorage(app);

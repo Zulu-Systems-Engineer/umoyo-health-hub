@@ -108,7 +108,7 @@ export const ragRouter = router({
           .get();
 
         const documentIds = new Set<string>();
-        chunksSnapshot.docs.forEach(doc => {
+        chunksSnapshot.docs.forEach((doc: any) => {
           const data = doc.data();
           if (data.documentId) {
             documentIds.add(data.documentId);
